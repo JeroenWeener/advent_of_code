@@ -5,9 +5,13 @@ void main() {
 
   int answer1 = part1(input);
   print(answer1);
+
+  int answer2 = part2(input);
+  print(answer2);
 }
 
-///--- Day 1: Calorie Counting ---
+/// --- Day 1: Calorie Counting ---
+///
 /// Santa's reindeer typically eat regular reindeer food, but they need a lot of
 /// magical energy to deliver presents on Christmas. For that, their favorite
 /// snack is a special type of star fruit that only grows deep in the jungle.
@@ -79,4 +83,39 @@ int part1(List<String> input) {
     }
     return previousValue;
   }).reduce((value, element) => element > value ? element : value);
+}
+
+/// --- Part Two ---
+///
+/// By the time you calculate the answer to the Elves' question, they've already
+/// realized that the Elf carrying the most Calories of food might eventually
+/// run out of snacks.
+///
+/// To avoid this unacceptable situation, the Elves would instead like to know
+/// the total Calories carried by the top three Elves carrying the most
+/// Calories. That way, even if one of those Elves runs out of snacks, they
+/// still have two backups.
+///
+/// In the example above, the top three Elves are the fourth Elf (with 24000
+/// Calories), then the third Elf (with 11000 Calories), then the fifth Elf
+/// (with 10000 Calories). The sum of the Calories carried by these three elves
+/// is 45000.
+///
+/// Find the top three Elves carrying the most Calories. How many Calories are
+/// those Elves carrying in total?
+int part2(List<String> input) {
+  List<int> calorieCounts = input.fold([0], (previousValue, element) {
+    if (element == '') {
+      previousValue.add(0);
+    } else {
+      previousValue.last += int.parse(element);
+    }
+    return previousValue;
+  });
+
+  calorieCounts.sort((a, b) => b - a);
+
+  return calorieCounts
+      .sublist(0, 3)
+      .reduce((value, element) => value += element);
 }

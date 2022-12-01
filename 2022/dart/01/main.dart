@@ -115,7 +115,5 @@ int part2(List<String> input) {
 
   calorieCounts.sort((a, b) => b - a);
 
-  return calorieCounts
-      .sublist(0, 3)
-      .reduce((value, element) => value += element);
+  return calorieCounts.take(3).reduce((value, element) => value + element);
 }

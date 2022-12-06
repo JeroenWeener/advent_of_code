@@ -1,0 +1,10 @@
+name: advent_of_code_2015_04
+description: Dart solution to Advent of Code 2015, day 4
+version: 0.0.1
+
+environment:
+  sdk: '>=2.10.0 <3.0.0'
+  
+dependencies:
+  crypto: 3.0.2
+  convert: 3.1.1

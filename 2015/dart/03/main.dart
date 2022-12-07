@@ -33,7 +33,7 @@ void main() {
 /// - ^v^v^v^v^v delivers a bunch of presents to some very lucky children at
 ///   only 2 houses.
 int part1(String input) {
-  final locations = {'0 0': null};
+  final locations = {'0 0'};
 
   int santaX = 0;
   int santaY = 0;
@@ -49,7 +49,7 @@ int part1(String input) {
       santaY--;
     }
 
-    locations['$santaX $santaY'] = null;
+    locations.add('$santaX $santaY');
   }
 
   return locations.length;
@@ -76,8 +76,8 @@ int part1(String input) {
 /// - ^v^v^v^v^v now delivers presents to 11 houses, with Santa going one
 ///   direction and Robo-Santa going the other.
 int part2(String input) {
-  final santaLocations = {'0 0': null};
-  final roboLocations = {'0 0': null};
+  final santaLocations = {'0 0'};
+  final roboLocations = {'0 0'};
 
   int santaX = 0;
   int santaY = 0;
@@ -98,7 +98,7 @@ int part2(String input) {
         santaY--;
       }
 
-      santaLocations['$santaX $santaY'] = null;
+      santaLocations.add('$santaX $santaY');
     } else {
       if (direction == '^'.codeUnits.first) {
         roboY++;
@@ -110,7 +110,7 @@ int part2(String input) {
         roboY--;
       }
 
-      roboLocations['$roboX $roboY'] = null;
+      roboLocations.add('$roboX $roboY');
     }
 
     santasTurn = !santasTurn;

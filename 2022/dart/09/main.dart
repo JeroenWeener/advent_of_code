@@ -983,7 +983,7 @@ int part2(List<String> input) {
 
       /// Propagate movement of head to other knots.
       for (int knotIndex = 1; knotIndex < knots.length; knotIndex++) {
-        knots[knotIndex].move(direction);
+        knots[knotIndex].moveTowards(knots[knotIndex - 1]);
       }
 
       /// Store tail location.

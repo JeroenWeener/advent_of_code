@@ -113,8 +113,8 @@ List<Monkey> parseMonkeys(
         .first);
   }
 
-  BigInt totalModulus =
-      BigInt.from(moduli.reduce((product, element) => product * element));
+  int lcmOfModuli =
+      moduli.reduce((lcm, element) => lcm * element ~/ lcm.gcd(element));
 
   for (int lineNumber = 0; lineNumber < input.length; lineNumber += 7) {
     List<int> startingItems = input[lineNumber + 1]
@@ -125,17 +125,13 @@ List<Monkey> parseMonkeys(
 
     List<String> parts = input[lineNumber + 2].split(' ');
     String operator = parts[parts.length - 2];
-    BigInt? value = BigInt.tryParse(parts[parts.length - 1]);
+    int? value = int.tryParse(parts[parts.length - 1]);
 
     int Function(int) operation = operator == '*'
-        ? (int oldWorryLevel) => ((BigInt.from(oldWorryLevel) *
-                    (value ?? BigInt.from(oldWorryLevel))) %
-                totalModulus)
-            .toInt()
-        : (int oldWorryLevel) => ((BigInt.from(oldWorryLevel) +
-                    (value ?? BigInt.from(oldWorryLevel))) %
-                totalModulus)
-            .toInt();
+        ? (int oldWorryLevel) =>
+            oldWorryLevel * (value ?? oldWorryLevel) % lcmOfModuli
+        : (int oldWorryLevel) =>
+            oldWorryLevel + (value ?? oldWorryLevel) % lcmOfModuli;
 
     int modulus = moduli[lineNumber ~/ 7];
     int monkeyOption1 = input[lineNumber + 4]

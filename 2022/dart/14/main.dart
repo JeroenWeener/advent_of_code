@@ -45,10 +45,6 @@ class Point {
     return points;
   }
 
-  Point copy() {
-    return Point(x, y);
-  }
-
   Point up() => Point(x, y - 1);
   Point right() => Point(x + 1, y);
   Point down() => Point(x, y + 1);

@@ -124,5 +124,51 @@ int part1(List<String> input) {
 }
 
 int part2(List<String> input) {
+  List<Sensor> sensors = extractSensors(input);
+  List<Position> beacons = extractBeacons(input);
+
+  int sizeRestriction = 4000000;
+
+  int minX = sensors
+      .map((sensor) => sensor.position.x - sensor.radius)
+      .reduce((a, b) => a < b ? a : b);
+  minX = max(0, minX);
+
+  int maxX = sensors
+      .map((sensor) => sensor.position.x + sensor.radius)
+      .reduce((a, b) => a > b ? a : b);
+  maxX = min(sizeRestriction, maxX);
+
+  int minY = sensors
+      .map((sensor) => sensor.position.y - sensor.radius)
+      .reduce((a, b) => a < b ? a : b);
+  minY = max(0, minY);
+
+  int maxY = sensors
+      .map((sensor) => sensor.position.y + sensor.radius)
+      .reduce((a, b) => a > b ? a : b);
+  maxY = min(sizeRestriction, maxY);
+
+  for (int x = minX; x <= maxX; x++) {
+    int progress = (x / (maxX - minX) * 100).toInt();
+    if (progress % 1 == 0) {
+      print(progress);
+    }
+    for (int y = minY; y <= maxY; y++) {
+      Position position = Position(x, y);
+      bool covered = sensors
+          .map((sensor) => sensor.coversPosition(position))
+          .any((isCovering) => isCovering);
+
+      if (!covered) {
+        bool containsBeacon = beacons.any((beacon) => beacon == position);
+        if (!containsBeacon) {
+          print(position);
+          return (position.x * sizeRestriction + position.y).abs();
+        }
+      }
+    }
+  }
+
   return -1;
 }

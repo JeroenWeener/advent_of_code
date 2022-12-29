@@ -193,7 +193,6 @@ int iterate(
   if (minutesLeft == 0) {
     int geode = currentInventory.minerals.geode;
     if (geode > geodeRecord) {
-      print(currentInventory);
       geodeRecord = geode;
     }
     return geode;

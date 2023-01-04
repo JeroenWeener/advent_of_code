@@ -13,7 +13,7 @@ void main() {
 /// Determine the offset from the start of the signal to the start of the
 /// message.
 int alignSignal(String input, int markerLength) {
-  for (var i = 0; i <= input.length - markerLength; i++) {
+  for (int i = 0; i <= input.length - markerLength; i++) {
     final List<int> codeUnits = input.substring(i, i + markerLength).codeUnits;
     final Set<int> codeUnitsSet = codeUnits.toSet();
     if (codeUnits.length == codeUnitsSet.length) {

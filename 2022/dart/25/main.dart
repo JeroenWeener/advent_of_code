@@ -5,9 +5,6 @@ void main() {
 
   String answer1 = part1(input);
   print(answer1);
-
-  int answer2 = part2(input);
-  print(answer2);
 }
 
 List<List<int>> parseInput(List<String> input) {
@@ -228,8 +225,4 @@ List<int> sum(List<List<int>> segmentLists) {
 String part1(List<String> input) {
   List<List<int>> numbers = parseInput(input);
   return segmentsToNumber(sum(numbers));
-}
-
-int part2(List<String> input) {
-  return -1;
 }

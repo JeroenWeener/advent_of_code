@@ -3,6 +3,34 @@ import 'package:test/test.dart';
 
 void main() {
   group('Iterable<T>', () {
+    group('zip', () {
+      test('returns a zipped iterable', () {
+        final Iterable<int> iterableA = [1, 2, 3];
+        final Iterable<String> iterableB = ['1', '2', '3'];
+
+        final Iterable<Pair<int, String>> actual = iterableA.zip(iterableB);
+
+        expect(actual.toList(), [
+          Pair(1, '1'),
+          Pair(2, '2'),
+          Pair(3, '3'),
+        ]);
+      });
+
+      test('ignores exceeding elements', () {
+        final Iterable<int> iterableA = [1, 2, 3];
+        final Iterable<int> iterableB = [1, 2, 3, 4];
+
+        final Iterable<Pair<int, int>> actual = iterableA.zip(iterableB);
+
+        expect(actual.toList(), [
+          Pair(1, 1),
+          Pair(2, 2),
+          Pair(3, 3),
+        ]);
+      });
+    });
+
     group('sw', () {
       test('returns a sliding window', () {
         final Iterable<int> iterable = [1, 2, 3, 4, 5, 6, 7, 8, 9];

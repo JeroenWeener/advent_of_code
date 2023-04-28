@@ -3,17 +3,17 @@ import 'package:aoc/aoc.dart';
 extension IterableExtension<T> on Iterable<T> {
   /// Zips this with [other].
   ///
-  /// Returns an iterable containing lists, where the first element is from this
-  /// and the second element is from [other].
+  /// Returns an iterable containing [Pair]s, where the left element is from
+  /// this and the right element is from [other].
   ///
   /// The resulting iterable will have the same length as the shortest iterable
   /// of the two. Values of the longer iterable that are 'alone' are dropped.
-  Iterable<List<dynamic>> zip<R>(Iterable<R> other) sync* {
+  Iterable<Pair<T, R>> zip<R>(Iterable<R> other) sync* {
     final iteratorA = iterator;
     final iteratorB = other.iterator;
 
     while (iteratorA.moveNext() && iteratorB.moveNext()) {
-      yield [iteratorA.current, iteratorB.current];
+      yield Pair(iteratorA.current, iteratorB.current);
     }
   }
 

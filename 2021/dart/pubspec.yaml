@@ -1,0 +1,16 @@
+name: dart
+description: Solutions to Advent of Code puzzles of 2021
+version: 1.0.0
+repository: https://github.com/JeroenWeener/advent_of_code
+publish_to: none
+
+environment:
+  sdk: '>=2.19.3 <3.0.0'
+
+dependencies:
+  aoc:
+    path: ../../aoc
+
+dev_dependencies:
+  lints: ^2.0.0
+  test: ^1.21.0

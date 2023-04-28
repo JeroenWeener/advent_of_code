@@ -19,3 +19,10 @@ doc/api/
 *.js_
 *.js.deps
 *.js.map
+
+# VSCode files
+.vscode/*
+
+# AoC
+session_id.txt
+**/puzzles/*.txt

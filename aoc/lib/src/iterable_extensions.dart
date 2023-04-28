@@ -101,3 +101,12 @@ extension NumberIterableExtension<T extends num> on Iterable<T> {
     return diff().map((T e) => e.abs() as T);
   }
 }
+
+extension StringIterableExtensions on Iterable<String> {
+  Iterable<String> transpose() {
+    assert(skip(1).every((e) => e.length == first.length),
+        'Strings are not of same length');
+
+    return first.length.fori((int i) => map((String s) => s[i]).join());
+  }
+}

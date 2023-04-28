@@ -48,10 +48,10 @@ void main() {
         ]);
       });
 
-      test('throws if window size is too large', () {
+      test('asserts if window size is too large', () {
         final Iterable iterable = [1, 2, 3];
 
-        expect(() => iterable.sw(4), throwsException);
+        expect(() => iterable.sw(4), throwsA(isA<AssertionError>()));
       });
     });
   });

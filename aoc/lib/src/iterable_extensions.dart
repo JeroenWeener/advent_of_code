@@ -1,6 +1,9 @@
 import 'package:aoc/aoc.dart';
 
 extension IterableExtension<T> on Iterable<T> {
+  /// Convience getter for accessing the second element in an [Iterable].
+  T get second => elementAt(1);
+
   /// Zips this with [other].
   ///
   /// Returns an iterable containing [Pair]s, where the left element is from
@@ -17,16 +20,18 @@ extension IterableExtension<T> on Iterable<T> {
     }
   }
 
+  /// Shorthand for [slidingWindow].
+  Iterable<List<T>> sw(int windowSize) => slidingWindow(windowSize);
+
   /// Returns a sliding window for a window of size [windowSize].
   ///
-  /// Throws an [Exception] if [windowSize] is larger than [length].
-  Iterable<List<T>> sw(int windowSize) sync* {
-    if (windowSize > length) {
-      throw Exception('`windowSize` is larger than number of elements');
-    }
+  /// [windowSize] should be [1..length].
+  Iterable<List<T>> slidingWindow(int windowSize) sync* {
+    assert(
+        windowSize <= length, 'window size is larger than number of elements');
+    assert(windowSize > 0, 'window size should be at least 1');
 
     List<T> window = [];
-
     final Iterator valueIterator = iterator;
 
     windowSize.times(() {
@@ -45,7 +50,18 @@ extension IterableExtension<T> on Iterable<T> {
   }
 }
 
-extension IterableNumberExtension<T extends num> on Iterable<T> {
+extension NumberIterableExtension<T extends num> on Iterable<T> {
+  /// Scales all elements in this with [factor].
+  Iterable<num> operator *(int factor) {
+    return map((T e) => e * factor);
+  }
+
+  /// Scales elements in this with elements in [other].
+  Iterable<num> multiply(Iterable<num> other) {
+    assert(other.length >= length, 'Error: not enough elements to multiply');
+    return zip(other).map((Pair<T, num> e) => e.l * e.r);
+  }
+
   /// Returns the lowest value in this.
   T min() {
     return reduce((T a, T b) => a < b ? a : b);
@@ -54,11 +70,6 @@ extension IterableNumberExtension<T extends num> on Iterable<T> {
   /// Returns the highest value in this.
   T max() {
     return reduce((T a, T b) => a > b ? a : b);
-  }
-
-  /// Quick access to the second value of this.
-  T second() {
-    return elementAt(2);
   }
 
   /// Returns the sum of the values in this.
@@ -87,6 +98,6 @@ extension IterableNumberExtension<T extends num> on Iterable<T> {
 
   /// Sames as [diff], but returns the differences as absolute values.
   Iterable<T> diffAbs() {
-    return diff().map((e) => e.abs() as T);
+    return diff().map((T e) => e.abs() as T);
   }
 }

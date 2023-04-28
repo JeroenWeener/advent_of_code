@@ -1,13 +1,14 @@
 extension IntExtension on int {
-  /// Executes function [f] n times, where n is this.
-  void times(Function f) {
-    fori((_) => f);
+  /// Executes function [f] n times, returning a [List] of outcomes.
+  List<T> times<T>(T Function() f) {
+    return fori((_) => f());
   }
 
-  /// Executes function [f] n times, passing in the current iteration as an
-  /// argument.
-  void fori(Function(int) f) {
-    range().map((int i) => f(i));
+  /// Executes function [f] n times, returning a [List] of outcomes.
+  ///
+  /// Passes in the current iteration as an argument.
+  List<T> fori<T>(T Function(int) f) {
+    return range().map((int i) => f(i)).toList();
   }
 
   /// Returns an [Iterable] containing the numbers 0 through this.

@@ -5,7 +5,12 @@ import 'dart:io';
 ///
 /// Assumes the current working directory is `advent_of_code/year/dart`.
 String getSessionId() {
-  return File('../../session_id.txt').readAsStringSync().replaceAll('\n', '');
+  try {
+    return File('../../session_id.txt').readAsLinesSync().first;
+  } on PathNotFoundException {
+    throw Exception(
+        'No session ID found. Did you create a file `session_id.txt` at the root directory?');
+  }
 }
 
 /// Determines the year from the directory structure.
@@ -26,11 +31,11 @@ int getYearInt() {
 ///
 /// Assumes the executable file is named `*_xx.dart`, where xx is the number of
 /// the day, using two characters (using a leading zero wherever necessary).
+///
+/// Path is split on '/' instead of [Platform.pathSeparator], as somehow the
+/// path uses '/' regardless of platform.
 String getDayString() {
-  return Platform.script.path
-      .split(Platform.pathSeparator)
-      .last
-      .split(RegExp(r'[_.]'))[1];
+  return Platform.script.path.split('/').last.split(RegExp(r'[_.]'))[1];
 }
 
 /// Same as [getDayString], but returns an [int].

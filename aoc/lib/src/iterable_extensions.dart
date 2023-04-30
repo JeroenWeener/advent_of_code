@@ -109,10 +109,71 @@ extension NumberIterableExtension<T extends num> on Iterable<T> {
 }
 
 extension StringIterableExtensions on Iterable<String> {
+  /// Transposes characters as if they were in a matrix.
+  ///
+  /// Example:
+  ///
+  /// ```dart
+  /// List<String> m = [
+  ///   'abc',
+  ///   'def',
+  ///   'ghi',
+  /// ];
+  ///
+  /// List<String> t = m.transpose();
+  ///
+  /// print(t);
+  ///
+  /// ---
+  ///
+  /// [
+  ///   'adg',
+  ///   'beh',
+  ///   'cfi',
+  /// ]
+  /// ```
   Iterable<String> transpose() {
     assert(skip(1).every((e) => e.length == first.length),
         'Strings are not of same length');
 
     return first.length.fori((int i) => map((String s) => s[i]).join());
+  }
+
+  /// Splits this iterable into multiple iterables, splitting on empty strings.
+  Iterable<List<String>> splitOnEmptyLine() sync* {
+    final Iterator iterableIterator = iterator;
+    List<String> nextList = [];
+
+    while (iterableIterator.moveNext()) {
+      final String line = iterableIterator.current;
+
+      if (line.isEmpty) {
+        yield nextList;
+        nextList = [];
+      } else {
+        nextList.add(line);
+      }
+    }
+
+    if (nextList.isNotEmpty) {
+      yield nextList;
+    }
+  }
+}
+
+extension IterableIterableExtensions<T> on Iterable<Iterable<T>> {
+  /// Transpose elements as if they were in a matrix.
+  Iterable<Iterable<T>> transpose() {
+    assert(skip(1).every((e) => e.length == first.length),
+        'Iterables are not of same length');
+
+    return first.length.fori((int i) => map(
+          (Iterable<T> innerIterable) => innerIterable.elementAt(i),
+        ));
+  }
+
+  /// Flattens the iterable of iterables into a single iterable.
+  Iterable<T> flatten() {
+    return expand((Iterable<T> innerIterable) => innerIterable);
   }
 }

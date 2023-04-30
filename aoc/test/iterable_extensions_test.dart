@@ -93,4 +93,51 @@ void main() {
       });
     });
   });
+
+  group('Iterable<String>', () {
+    group('splitOnEmptyLine', () {
+      test('splits on empty line', () {
+        final Iterable<String> iterable = ['this', 'is', '', 'a', 'test'];
+
+        final Iterable<Iterable<String>> actual = iterable.splitOnEmptyLine();
+
+        expect(actual.toList(), [
+          ['this', 'is'],
+          ['a', 'test'],
+        ]);
+      });
+    });
+  });
+
+  group('Iterable<Iterable<T>>', () {
+    group('transpose', () {
+      test('transposes the iterable', () {
+        final Iterable<Iterable<int>> iterable = [
+          [1, 2, 3],
+          [4, 5, 6],
+        ];
+
+        final Iterable<Iterable<int>> actual = iterable.transpose();
+
+        expect(actual, [
+          [1, 4],
+          [2, 5],
+          [3, 6],
+        ]);
+      });
+    });
+
+    group('flatten', () {
+      test('flattens iterable of iterables', () {
+        final Iterable<Iterable<int>> iterable = [
+          [1, 2],
+          [3, 4, 5],
+        ];
+
+        final Iterable<int> actual = iterable.flatten();
+
+        expect(actual, [1, 2, 3, 4, 5]);
+      });
+    });
+  });
 }

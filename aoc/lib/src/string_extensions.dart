@@ -18,4 +18,16 @@ extension StringExtension on String {
   int binaryToInt() {
     return int.parse(this, radix: 2);
   }
+
+  /// Shorthand for [splitWhitespace].
+  List<String> splitWs() {
+    return splitWhitespace();
+  }
+
+  /// Splits a string on white spaces.
+  ///
+  /// Deals with preceding and trailing whitespaces.
+  List<String> splitWhitespace() {
+    return trim().split(RegExp(r'\s+'));
+  }
 }

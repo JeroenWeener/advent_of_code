@@ -58,4 +58,9 @@ class Pair<S, T> {
   operator ==(Object other) {
     return other is Pair && left == other.left && right == other.right;
   }
+
+  @override
+  String toString() {
+    return '<$l, $r>';
+  }
 }

@@ -1,13 +1,26 @@
 import 'package:aoc/aoc.dart';
 
 void main(List<String> args) async {
-  final List<String> puzzleInput = await AocApiManager().getPuzzleInput();
-
-  final int solution1 = part1(puzzleInput);
-  print(solution1);
-
-  final int solution2 = part2(puzzleInput);
-  print(solution2);
+  Solver<List<String>, int>(
+    part1: part1,
+    part2: part2,
+    testInput: [
+      '00100',
+      '11110',
+      '10110',
+      '10111',
+      '10101',
+      '01111',
+      '00111',
+      '11100',
+      '10000',
+      '11001',
+      '00010',
+      '01010',
+    ],
+    testOutput1: 198,
+    testOutput2: 230,
+  ).execute();
 }
 
 int part1(List<String> input) {

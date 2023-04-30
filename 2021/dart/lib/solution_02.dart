@@ -1,13 +1,20 @@
 import 'package:aoc/aoc.dart';
 
 void main(List<String> args) async {
-  final List<String> puzzleInput = await AocApiManager().getPuzzleInput();
-
-  final int solution1 = part1(puzzleInput);
-  print(solution1);
-
-  final int solution2 = part2(puzzleInput);
-  print(solution2);
+  Solver<List<String>, int>(
+    part1: part1,
+    part2: part2,
+    testInput: [
+      'forward 5',
+      'down 5',
+      'forward 8',
+      'up 3',
+      'down 8',
+      'forward 2',
+    ],
+    testOutput1: 150,
+    testOutput2: 900,
+  ).execute();
 }
 
 int x(String s) {

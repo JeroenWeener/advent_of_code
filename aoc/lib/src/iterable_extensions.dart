@@ -1,6 +1,21 @@
 import 'package:aoc/aoc.dart';
 
 extension IterableExtension<T> on Iterable<T> {
+  /// Returns all unique elements paired with the number of occurences they have
+  /// in this [Iterable].
+  Iterable<Pair<T, int>> counts() {
+    final Map<T, int> counts = {};
+    final Iterator elementIterator = iterator;
+    while (elementIterator.moveNext()) {
+      final T element = elementIterator.current;
+      final int? count = counts[element];
+      counts[element] = count == null ? 1 : count + 1;
+    }
+
+    return counts.entries
+        .map((MapEntry<T, int> entry) => Pair(entry.key, entry.value));
+  }
+
   /// Convience getter for accessing the second element in an [Iterable].
   T get second => elementAt(1);
 

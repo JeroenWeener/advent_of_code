@@ -3,6 +3,20 @@ import 'package:test/test.dart';
 
 void main() {
   group('Iterable<T>', () {
+    group('count', () {
+      test('counts correctly', () {
+        final Iterable<int> iterable = [1, 2, 2, 3, 3, 3];
+
+        final Iterable<Pair<int, int>> actual = iterable.counts();
+
+        expect(actual, [
+          Pair(1, 1),
+          Pair(2, 2),
+          Pair(3, 3),
+        ]);
+      });
+    });
+
     group('zip', () {
       test('returns a zipped iterable', () {
         final Iterable<int> iterableA = [1, 2, 3];

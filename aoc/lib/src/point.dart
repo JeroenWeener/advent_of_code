@@ -52,4 +52,9 @@ class Point {
   operator ==(Object other) {
     return other is Point && x == other.x && y == other.y;
   }
+
+  @override
+  String toString() {
+    return '($x, $y)';
+  }
 }

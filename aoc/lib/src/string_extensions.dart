@@ -30,4 +30,14 @@ extension StringExtension on String {
   List<String> splitWhitespace() {
     return trim().split(RegExp(r'\s+'));
   }
+
+  /// Returns a [List] containing the [int]s that were found in this [String].
+  ///
+  /// [int]s appear in order of appearance in the string.
+  List<int> extractInts() {
+    return replaceAll(RegExp(r'[^\d+]'), ' ')
+        .splitWhitespace()
+        .map((String e) => int.parse(e))
+        .toList();
+  }
 }

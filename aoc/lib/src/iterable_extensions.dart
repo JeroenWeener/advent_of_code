@@ -4,6 +4,12 @@ extension IterableExtension<T> on Iterable<T> {
   /// Convience getter for accessing the second element in an [Iterable].
   T get second => elementAt(1);
 
+  /// Implementation of [map] that passes both the iteration and the element to
+  /// the provided function [f].
+  Iterable<R> mapI<R>(R Function(int, T) f) {
+    return zip(length.range()).map((Pair<T, int> e) => f(e.r, e.l));
+  }
+
   /// Zips this with [other].
   ///
   /// Returns an iterable containing [Pair]s, where the left element is from

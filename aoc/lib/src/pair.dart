@@ -1,6 +1,6 @@
 import 'package:aoc/aoc.dart';
 
-class Pair<S, T> {
+class Pair<L, R> {
   const Pair(this.left, this.right);
 
   /// Creates a [Pair] for list [l].
@@ -15,25 +15,25 @@ class Pair<S, T> {
   /// Pair<String, int> pair = Pair<String, int>.fromList('up 8'.split(' '));
   /// ```
   factory Pair.fromList(List l) {
-    S left;
-    switch (S) {
+    L left;
+    switch (L) {
       case int:
-        left = int.parse(l.first) as S;
+        left = int.parse(l.first) as L;
         break;
       case double:
-        left = double.parse(l.first) as S;
+        left = double.parse(l.first) as L;
         break;
       default:
         left = l.first;
     }
 
-    T right;
-    switch (T) {
+    R right;
+    switch (R) {
       case int:
-        right = int.parse(l.second) as T;
+        right = int.parse(l.second) as R;
         break;
       case double:
-        right = double.parse(l.second) as T;
+        right = double.parse(l.second) as R;
         break;
       default:
         right = l.second;
@@ -42,21 +42,23 @@ class Pair<S, T> {
     return Pair(left, right);
   }
 
-  final S left;
-  final T right;
+  final L left;
+  final R right;
 
   /// Shorthand for [left].
-  S get l => left;
+  L get l => left;
 
   /// Shorthand for [right].
-  T get r => right;
+  R get r => right;
+
+  Pair<R, L> get flip => Pair(r, l);
 
   @override
   int get hashCode => Object.hash(left, right);
 
   @override
-  operator ==(Object other) {
-    return other is Pair && left == other.left && right == other.right;
+  bool operator ==(Object other) {
+    return other is Pair<L, R> && left == other.left && right == other.right;
   }
 
   @override

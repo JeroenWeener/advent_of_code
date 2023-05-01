@@ -19,17 +19,17 @@ class Point2 {
   final int y;
 
   /// Adds two [Point2]s by adding their [x]s and [y]s.
-  operator +(Point2 other) => Point2(x + other.x, y + other.y);
+  Point2 operator +(Point2 other) => Point2(x + other.x, y + other.y);
 
   /// Subtracts two [Point2]s by subtracting [other]'s x and y from [x] and [y],
   /// respectively.
-  operator -(Point2 other) => Point2(x - other.x, y - other.y);
+  Point2 operator -(Point2 other) => Point2(x - other.x, y - other.y);
 
   /// Returns a [Point2] with its values scaled by [factor].
-  operator *(int factor) => Point2(factor * x, factor * y);
+  Point2 operator *(int factor) => Point2(factor * x, factor * y);
 
   /// Returns a [Point2] with -[x] and -[y].
-  operator -() => flipXY;
+  Point2 operator -() => flipXY;
 
   Point2 get flipX => Point2(-x, y);
   Point2 get flipY => Point2(x, -y);
@@ -58,7 +58,7 @@ class Point2 {
   int get hashCode => Object.hash(x, y);
 
   @override
-  operator ==(Object other) {
+  bool operator ==(Object other) {
     return other is Point2 && x == other.x && y == other.y;
   }
 
@@ -89,17 +89,19 @@ class Point3 {
   final int z;
 
   /// Adds two [Point3]s by adding their [x]s, [y]s and [z]s.
-  operator +(Point3 other) => Point3(x + other.x, y + other.y, z + other.z);
+  Point3 operator +(Point3 other) =>
+      Point3(x + other.x, y + other.y, z + other.z);
 
   /// Subtracts two [Point3]s by subtracting [other]'s x, y and z from [x], [y]
   /// and [z] respectively.
-  operator -(Point3 other) => Point3(x - other.x, y - other.y, z - other.z);
+  Point3 operator -(Point3 other) =>
+      Point3(x - other.x, y - other.y, z - other.z);
 
   /// Returns a [Point3] with its values scaled by [factor].
-  operator *(int factor) => Point3(factor * x, factor * y, factor * z);
+  Point3 operator *(int factor) => Point3(factor * x, factor * y, factor * z);
 
   /// Returns a [Point3] with -[x], -[y] and -[z].
-  operator -() => flipXYZ;
+  Point3 operator -() => flipXYZ;
 
   Point3 get flipX => Point3(-x, y, z);
   Point3 get flipY => Point3(x, -y, z);
@@ -122,7 +124,7 @@ class Point3 {
   int get hashCode => Object.hash(x, y, z);
 
   @override
-  operator ==(Object other) {
+  bool operator ==(Object other) {
     return other is Point3 && x == other.x && y == other.y && z == other.z;
   }
 

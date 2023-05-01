@@ -66,3 +66,14 @@ class Pair<L, R> {
     return '<$l, $r>';
   }
 }
+
+extension IntIntPairExtension on Pair<int, int> {
+  /// Returns a [List] of [int]s, starting a [l], increasing with [step] until
+  /// [r].
+  Iterable<int> range({int step = 1}) {
+    assert(l < r);
+    assert(step >= 1);
+
+    return (r - l).range(step: 1).map((int e) => e + l);
+  }
+}

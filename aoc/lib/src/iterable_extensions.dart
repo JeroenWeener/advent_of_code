@@ -1,28 +1,36 @@
 import 'package:aoc/aoc.dart';
 
-extension IterableExtension<T> on Iterable<T> {
+extension IterableExtension<E> on Iterable<E> {
+  /// Prints elements emitted by the [Iterable] and re-emits them.
+  Iterable<E> mapPrint() {
+    return map((E e) {
+      print(e);
+      return e;
+    });
+  }
+
   /// Returns all unique elements paired with the number of occurences they have
   /// in this [Iterable].
-  Iterable<Pair<T, int>> counts() {
-    final Map<T, int> counts = {};
+  Iterable<Pair<E, int>> counts() {
+    final Map<E, int> counts = {};
     final Iterator elementIterator = iterator;
     while (elementIterator.moveNext()) {
-      final T element = elementIterator.current;
+      final E element = elementIterator.current;
       final int? count = counts[element];
       counts[element] = count == null ? 1 : count + 1;
     }
 
     return counts.entries
-        .map((MapEntry<T, int> entry) => Pair(entry.key, entry.value));
+        .map((MapEntry<E, int> entry) => Pair(entry.key, entry.value));
   }
 
   /// Convience getter for accessing the second element in an [Iterable].
-  T get second => elementAt(1);
+  E get second => elementAt(1);
 
   /// Implementation of [map] that passes both the iteration and the element to
   /// the provided function [f].
-  Iterable<R> mapI<R>(R Function(int, T) f) {
-    return zip(length.range()).map((Pair<T, int> e) => f(e.r, e.l));
+  Iterable<R> mapI<R>(R Function(int, E) f) {
+    return zip(length.range()).map((Pair<E, int> e) => f(e.r, e.l));
   }
 
   /// Zips this with [other].
@@ -32,7 +40,7 @@ extension IterableExtension<T> on Iterable<T> {
   ///
   /// The resulting iterable will have the same length as the shortest iterable
   /// of the two. Values of the longer iterable that are 'alone' are dropped.
-  Iterable<Pair<T, R>> zip<R>(Iterable<R> other) sync* {
+  Iterable<Pair<E, R>> zip<R>(Iterable<R> other) sync* {
     final iteratorA = iterator;
     final iteratorB = other.iterator;
 
@@ -42,17 +50,17 @@ extension IterableExtension<T> on Iterable<T> {
   }
 
   /// Shorthand for [slidingWindow].
-  Iterable<List<T>> sw(int windowSize) => slidingWindow(windowSize);
+  Iterable<List<E>> sw(int windowSize) => slidingWindow(windowSize);
 
   /// Returns a sliding window for a window of size [windowSize].
   ///
   /// [windowSize] should be [1..length].
-  Iterable<List<T>> slidingWindow(int windowSize) sync* {
+  Iterable<List<E>> slidingWindow(int windowSize) sync* {
     assert(
         windowSize <= length, 'window size is larger than number of elements');
     assert(windowSize > 0, 'window size should be at least 1');
 
-    List<T> window = [];
+    List<E> window = [];
     final Iterator valueIterator = iterator;
 
     windowSize.times(() {
@@ -71,55 +79,55 @@ extension IterableExtension<T> on Iterable<T> {
   }
 }
 
-extension NumberIterableExtension<T extends num> on Iterable<T> {
+extension NumberIterableExtension<E extends num> on Iterable<E> {
   /// Scales all elements in this with [factor].
   Iterable<num> operator *(int factor) {
-    return map((T e) => e * factor);
+    return map((E e) => e * factor);
   }
 
   /// Scales elements in this with elements in [other].
   Iterable<num> multiply(Iterable<num> other) {
     assert(other.length >= length, 'Error: not enough elements to multiply');
-    return zip(other).map((Pair<T, num> e) => e.l * e.r);
+    return zip(other).map((Pair<E, num> e) => e.l * e.r);
   }
 
   /// Returns the lowest value in this.
-  T min() {
-    return reduce((T a, T b) => a < b ? a : b);
+  E min() {
+    return reduce((E a, E b) => a < b ? a : b);
   }
 
   /// Returns the highest value in this.
-  T max() {
-    return reduce((T a, T b) => a > b ? a : b);
+  E max() {
+    return reduce((E a, E b) => a > b ? a : b);
   }
 
   /// Returns the sum of the values in this.
-  T sum() {
-    return reduce((T a, T b) => a + b as T);
+  E sum() {
+    return reduce((E a, E b) => a + b as E);
   }
 
   /// Returns an [Iterable] emitting the differences between the values in this.
   ///
   /// If there is less than 2 elements, the resulting iterable will not emit
   /// anything.
-  Iterable<T> diff() sync* {
+  Iterable<E> diff() sync* {
     if (length < 2) return;
 
     final Iterator valueIterator = iterator;
 
     valueIterator.moveNext();
-    T value = valueIterator.current;
+    E value = valueIterator.current;
 
     while (valueIterator.moveNext()) {
-      final T current = valueIterator.current;
-      yield current - value as T;
+      final E current = valueIterator.current;
+      yield current - value as E;
       value = current;
     }
   }
 
   /// Sames as [diff], but returns the differences as absolute values.
-  Iterable<T> diffAbs() {
-    return diff().map((T e) => e.abs() as T);
+  Iterable<E> diffAbs() {
+    return diff().map((E e) => e.abs() as E);
   }
 }
 
@@ -176,19 +184,19 @@ extension StringIterableExtensions on Iterable<String> {
   }
 }
 
-extension IterableIterableExtensions<T> on Iterable<Iterable<T>> {
+extension IterableIterableExtensions<E> on Iterable<Iterable<E>> {
   /// Transpose elements as if they were in a matrix.
-  Iterable<Iterable<T>> transpose() {
+  Iterable<Iterable<E>> transpose() {
     assert(skip(1).every((e) => e.length == first.length),
         'Iterables are not of same length');
 
     return first.length.fori((int i) => map(
-          (Iterable<T> innerIterable) => innerIterable.elementAt(i),
+          (Iterable<E> innerIterable) => innerIterable.elementAt(i),
         ));
   }
 
   /// Flattens the iterable of iterables into a single iterable.
-  Iterable<T> flatten() {
-    return expand((Iterable<T> innerIterable) => innerIterable);
+  Iterable<E> flatten() {
+    return expand((Iterable<E> innerIterable) => innerIterable);
   }
 }

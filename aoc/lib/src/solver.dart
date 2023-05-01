@@ -24,6 +24,7 @@ class Solver<I, O> {
     I? testInput,
     O? testOutput1,
     O? testOutput2,
+    bool testsOnly = false,
     I Function(List<String>)? inputTransformer,
     bool uploadAnswers = false,
     int? year,
@@ -33,6 +34,7 @@ class Solver<I, O> {
         _testOutput1 = testOutput1,
         _testOutput2 = testOutput2,
         _testInput = testInput,
+        _testsOnly = testsOnly,
         _uploadAnswers = uploadAnswers,
         assert((inputTransformer != null || Solver._isSupportedInputType<I>()),
             'No input transformer is provided and input is not of type List<String>, String, List<int> or int'),
@@ -53,6 +55,12 @@ class Solver<I, O> {
   final O Function(I)? _part1;
   final O Function(I)? _part2;
   final I Function(List<String>)? _inputTransformer;
+
+  /// Only execute tests.
+  ///
+  /// Refrains from running [_part1] and [_part2] on the puzzle input.
+  final bool _testsOnly;
+
   final bool _uploadAnswers;
 
   /// Returns whether the provided input type [T] is supported by default, or
@@ -89,8 +97,9 @@ class Solver<I, O> {
   }
 
   Future<void> _executeReal(O Function(I) solution) async {
+    final I puzzleInput = await _getPuzzleInput();
     final stopwatch = Stopwatch()..start();
-    final O output = solution(await _getPuzzleInput());
+    final O output = solution(puzzleInput);
     final int executionTimeMillis = stopwatch.elapsedMilliseconds;
     if (_uploadAnswers) {
       // TODO(jweener): upload answer.
@@ -106,7 +115,9 @@ class Solver<I, O> {
       print('');
       print('--- Part 1 ---');
       _executeTest(_part1!, _testOutput1 as O);
-      await _executeReal(_part1!);
+      if (!_testsOnly) {
+        await _executeReal(_part1!);
+      }
     } else {
       print('No parameters provided for part 1.');
     }
@@ -115,7 +126,9 @@ class Solver<I, O> {
       print('');
       print('--- Part 2 ---');
       _executeTest(_part2!, _testOutput2 as O);
-      await _executeReal(_part2!);
+      if (!_testsOnly) {
+        await _executeReal(_part2!);
+      }
     } else {
       print('No parameters provided for part 2.');
     }

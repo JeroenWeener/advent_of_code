@@ -1,6 +1,43 @@
 import 'function_utils.dart';
 
 extension IntExtension on int {
+  /// Shorthand for [fibonacci].
+  int fib() => fibonacci();
+
+  /// Calculates the nth fibonacci number.
+  ///
+  /// fib(0) = 0
+  /// fib(1) = 1
+  /// fib(n) = fib(n-1) + fib(n-2)
+  int fibonacci() {
+    return this <= 1 ? this : (this - 1).fib() + (this - 2).fib();
+  }
+
+  /// Calculates the nth triangular number.
+  ///
+  /// t(0) = 0
+  /// t(1) = 1
+  /// t(2) = 3
+  /// t(3) = 6
+  /// t(n) = n*(n+1)/2
+  int triangular() {
+    return (this * (this + 1)) >> 1;
+  }
+
+  int fac() => factorial();
+
+  /// Calculates the factorial of this [int].
+  ///
+  /// fac(0) = 0
+  /// fac(1) = 1
+  /// fac(2) = 2
+  /// fac(3) = 6
+  /// fac(n) = n * fac(n-1)
+  int factorial() {
+    assert(this >= 0);
+    return this * (this - 1).fac();
+  }
+
   /// Executes function [f] n times, returning a [List] of outcomes.
   List<T> times<T>(T Function() f) {
     return fori((_) => f());
@@ -23,9 +60,11 @@ extension IntExtension on int {
 
   /// Returns an [Iterable] containing the numbers 0 through this [int].
   Iterable<int> range({
-    int? step,
+    int step = 1,
   }) sync* {
-    for (int i = 0; i < this; i += (step ?? 1)) {
+    assert(step >= 1);
+
+    for (int i = 0; i < this; i += step) {
       yield i;
     }
   }

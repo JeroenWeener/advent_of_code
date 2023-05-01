@@ -21,25 +21,25 @@ void main(List<String> args) async {
   ).execute();
 }
 
-Iterable<Point> pointsOnHorizontalLine(int x1, int x2, int y) sync* {
+Iterable<Point2> pointsOnHorizontalLine(int x1, int x2, int y) sync* {
   final int minX = x1 < x2 ? x1 : x2;
   final int maxX = x1 < x2 ? x2 : x1;
 
   for (int x = minX; x <= maxX; x++) {
-    yield Point(x, y);
+    yield Point2(x, y);
   }
 }
 
-Iterable<Point> pointsOnVerticalLine(int x, int y1, int y2) sync* {
+Iterable<Point2> pointsOnVerticalLine(int x, int y1, int y2) sync* {
   final int minY = y1 < y2 ? y1 : y2;
   final int maxY = y1 < y2 ? y2 : y1;
 
   for (int y = minY; y <= maxY; y++) {
-    yield Point(x, y);
+    yield Point2(x, y);
   }
 }
 
-Iterable<Point> pointsOnDiagonalLine(int x1, int x2, int y1, int y2) sync* {
+Iterable<Point2> pointsOnDiagonalLine(int x1, int x2, int y1, int y2) sync* {
   assert((x1 - x2).abs() == (y1 - y2).abs());
 
   final bool reversedX = x2 < x1;
@@ -49,13 +49,13 @@ Iterable<Point> pointsOnDiagonalLine(int x1, int x2, int y1, int y2) sync* {
   int y = y1;
 
   for (int i = 0; i < (x1 - x2).abs() + 1; i++) {
-    yield Point(x, y);
+    yield Point2(x, y);
     x += reversedX.not.i11;
     y += reversedY.not.i11;
   }
 }
 
-Iterable<Point> pointsOnLine1(String line) {
+Iterable<Point2> pointsOnLine1(String line) {
   final List<int> coordinates = line.extractInts();
 
   final int x1 = coordinates[0];
@@ -74,7 +74,7 @@ Iterable<Point> pointsOnLine1(String line) {
   return [];
 }
 
-Iterable<Point> pointsOnLine2(String line) {
+Iterable<Point2> pointsOnLine2(String line) {
   final List<int> coordinates = line.extractInts();
 
   final int x1 = coordinates[0];

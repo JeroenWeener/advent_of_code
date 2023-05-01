@@ -48,14 +48,14 @@ int part2(List<String> input) {
   return input
       .map((String line) => Pair<String, int>.fromList(line.split(' ')))
       .fold(
-        Pair<int, Point>(0, Point.origin()),
-        (Pair<int, Point> properties, Pair<String, int> instruction) {
+        Pair<int, Point2>(0, Point2.origin()),
+        (Pair<int, Point2> properties, Pair<String, int> instruction) {
           bool isHorizontal = instruction.l == 'forward';
           bool isUp = instruction.l == 'up';
           int speed = isHorizontal ? instruction.r : 0;
           int aim =
               properties.l + (isHorizontal ? 0 : instruction.r * isUp.not.i11);
-          Point pos = properties.r.add(x: speed, y: aim * speed);
+          Point2 pos = properties.r.add(x: speed, y: aim * speed);
           return Pair(aim, pos);
         },
       )

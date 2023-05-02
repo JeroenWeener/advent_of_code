@@ -3,40 +3,40 @@ import 'package:aoc/aoc.dart';
 class Pair<L, R> {
   const Pair(this.left, this.right);
 
-  /// Creates a [Pair] for list [l].
+  /// Creates a [Pair] for iterable [it].
   ///
-  /// For every element in [l], the first element is used as [left] and the
+  /// For every element in [it], the first element is used as [left] and the
   /// second element is used as [right].
   ///
-  /// If a value in [l] is of type [String], but the provided type is [int] or
+  /// If a value in [it] is of type [String], but the provided type is [int] or
   /// [double], the value is automatically cast. For example:
   ///
   /// ```dart
-  /// Pair<String, int> pair = Pair<String, int>.fromList('up 8'.split(' '));
+  /// Pair<String, int> pair = Pair<String, int>.fromIterable('up 8'.split(' '));
   /// ```
-  factory Pair.fromList(List l) {
+  factory Pair.fromIterable(Iterable it) {
     L left;
     switch (L) {
       case int:
-        left = int.parse(l.first) as L;
+        left = int.parse(it.first) as L;
         break;
       case double:
-        left = double.parse(l.first) as L;
+        left = double.parse(it.first) as L;
         break;
       default:
-        left = l.first;
+        left = it.first;
     }
 
     R right;
     switch (R) {
       case int:
-        right = int.parse(l.second) as R;
+        right = int.parse(it.second) as R;
         break;
       case double:
-        right = double.parse(l.second) as R;
+        right = double.parse(it.second) as R;
         break;
       default:
-        right = l.second;
+        right = it.second;
     }
 
     return Pair(left, right);

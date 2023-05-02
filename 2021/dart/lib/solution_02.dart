@@ -46,7 +46,7 @@ int part1(List<String> input) {
 
 int part2(List<String> input) {
   return input
-      .map((String line) => Pair<String, int>.fromList(line.split(' ')))
+      .map((String line) => Pair<String, int>.fromIterable(line.split(' ')))
       .fold(
         Pair<int, Point2>(0, Point2.origin()),
         (Pair<int, Point2> properties, Pair<String, int> instruction) {

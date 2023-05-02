@@ -1,4 +1,21 @@
+import 'package:aoc/aoc.dart';
+
 extension StringExtension on String {
+  /// Removes all characters in [other] from the [String].
+  String operator -(String other) {
+    return where((s) => !other.contains(s)).join();
+  }
+
+  /// Performs classic [every] on the characters of the [String].
+  bool every(bool Function(String s) f) {
+    return length.range().every((int index) => f(this[index]));
+  }
+
+  /// Performs classic [any] on the characters of the [String].
+  bool any(bool Function(String s) f) {
+    return length.range().any((int index) => f(this[index]));
+  }
+
   /// Performs classic [where] on the characters of the [String].
   Iterable<String> where(bool Function(String s) f) sync* {
     for (int i = 0; i < length; i++) {

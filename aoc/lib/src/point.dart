@@ -35,6 +35,15 @@ class Point2 {
   Point2 get flipY => Point2(x, -y);
   Point2 get flipXY => Point2(-x, -y);
 
+  Point2 get l => left;
+  Point2 get left => Point2(x - 1, y);
+  Point2 get r => right;
+  Point2 get right => Point2(x + 1, y);
+  Point2 get u => up;
+  Point2 get up => Point2(x, y - 1);
+  Point2 get d => down;
+  Point2 get down => Point2(x, y + 1);
+
   /// Shorthand for [transpose].
   Point2 get t => Point2(y, x);
 

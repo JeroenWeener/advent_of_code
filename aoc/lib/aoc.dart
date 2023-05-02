@@ -8,3 +8,4 @@ export 'src/point.dart';
 export 'src/bool_extensions.dart';
 export 'src/string_extensions.dart';
 export 'src/function_utils.dart';
+export 'src/grid.dart';

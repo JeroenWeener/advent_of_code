@@ -2,22 +2,69 @@ import 'package:aoc/src/int_extensions.dart';
 import 'package:aoc/src/iterable_extensions.dart';
 import 'package:aoc/src/point.dart';
 
-class Grid<E> {
-  const Grid([Map<Point2, E>? grid]) : _grid = grid ?? const {};
+typedef Grid<E> = Map<Point2, E>;
+typedef GridItem<E> = MapEntry<Point2, E>;
 
-  final Map<Point2, E> _grid;
-
-  E? operator [](Point2 p) => _grid[p];
-  void operator []=(Point2 p, E v) => _grid[p] = v;
-
-  int get minX => _grid.keys.map((Point2 p) => p.x).min();
-  int get maxX => _grid.keys.map((Point2 p) => p.x).max();
-  int get minY => _grid.keys.map((Point2 p) => p.y).min();
-  int get maxY => _grid.keys.map((Point2 p) => p.y).max();
+extension GridExtension<E> on Grid<E> {
+  int get minX => keys.map((Point2 p) => p.x).min();
+  int get maxX => keys.map((Point2 p) => p.x).max();
+  int get minY => keys.map((Point2 p) => p.y).min();
+  int get maxY => keys.map((Point2 p) => p.y).max();
   int get width => maxX - minX + 1;
   int get height => maxY - minY + 1;
 
-  Grid<E> clone() => Grid({..._grid});
+  Grid<E> clone() => {...this};
+
+  /// Shorthand for [neighbors].
+  List<GridItem<E>> ns(Point2 p) => neighbors(p);
+
+  /// Returns a list of neighbors.
+  ///
+  /// Neighbors are defined as the [Point2]s next to [point], either
+  /// horizontally or vertically. If [considerDiagonals] is set, diagonal points
+  /// are also returned as neighbors.
+  List<GridItem<E>> neighbors(
+    Point2 point, {
+    bool considerDiagonals = false,
+  }) {
+    final Iterable<GridItem<E>?> entriesNullable = entries.cast<GridItem<E>?>();
+    final GridItem<E>? u = entriesNullable.firstWhere((e) => e!.key == point.u,
+        orElse: () => null);
+    final GridItem<E>? r = entriesNullable.firstWhere((e) => e!.key == point.r,
+        orElse: () => null);
+    final GridItem<E>? d = entriesNullable.firstWhere((e) => e!.key == point.d,
+        orElse: () => null);
+    final GridItem<E>? l = entriesNullable.firstWhere((e) => e!.key == point.l,
+        orElse: () => null);
+
+    if (!considerDiagonals) {
+      return [
+        if (u != null) u,
+        if (r != null) r,
+        if (d != null) d,
+        if (l != null) l,
+      ];
+    } else {
+      final GridItem<E>? ur = entriesNullable
+          .firstWhere((e) => e!.key == point.u.r, orElse: () => null);
+      final GridItem<E>? dr = entriesNullable
+          .firstWhere((e) => e!.key == point.d.r, orElse: () => null);
+      final GridItem<E>? dl = entriesNullable
+          .firstWhere((e) => e!.key == point.d.l, orElse: () => null);
+      final GridItem<E>? ul = entriesNullable
+          .firstWhere((e) => e!.key == point.u.l, orElse: () => null);
+      return [
+        if (u != null) u,
+        if (ur != null) ur,
+        if (r != null) r,
+        if (dr != null) dr,
+        if (d != null) d,
+        if (dl != null) dl,
+        if (l != null) l,
+        if (ul != null) ul,
+      ];
+    }
+  }
 
   String toPrettyString({
     E? defaultValue,
@@ -36,7 +83,7 @@ class Grid<E> {
     String addBorder(String s) => showBorder ? '|$s|' : s;
 
     final int elementCharacterSize = [
-      ..._grid.values.map((e) => e.toString().length),
+      ...values.map((e) => e.toString().length),
       defaultValue.toString().length
     ].max();
     final String intersectionString =
@@ -54,7 +101,7 @@ class Grid<E> {
           (int y) => addBorder(
             width.range().map(
               (int x) {
-                final E? element = _grid[Point2(x + minX, y + minY)];
+                final E? element = this[Point2(x + minX, y + minY)];
                 final String elementString =
                     (element ?? defaultValue ?? ' ').toString();
                 final int padding = elementCharacterSize - elementString.length;

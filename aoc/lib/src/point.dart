@@ -3,17 +3,13 @@ import 'package:aoc/aoc.dart';
 class Point2 {
   const Point2(this.x, this.y);
 
-  factory Point2.origin() {
-    return Point2(0, 0);
-  }
+  factory Point2.origin() => Point2(0, 0);
 
   /// Adds multiple [Point2]s together by summing their [x]s and [y]s.
-  factory Point2.add(Iterable<Point2> points) {
-    return Point2(
-      points.map((Point2 p) => p.x).sum(),
-      points.map((Point2 p) => p.y).sum(),
-    );
-  }
+  factory Point2.add(Iterable<Point2> points) => Point2(
+        points.map((Point2 p) => p.x).sum(),
+        points.map((Point2 p) => p.y).sum(),
+      );
 
   final int x;
   final int y;
@@ -56,9 +52,7 @@ class Point2 {
 
   /// Returns a new [Point2] with [this.x] increased by [x] and [this.y]
   /// increased by [y].
-  Point2 add({int? x, int? y}) {
-    return Point2(this.x + (x ?? 0), this.y + (y ?? 0));
-  }
+  Point2 add({int? x, int? y}) => Point2(this.x + (x ?? 0), this.y + (y ?? 0));
 
   /// Transforms this [Point2] to a [Point3] with z=0.
   Point3 toPoint3() => Point3(x, y, 0);
@@ -67,31 +61,24 @@ class Point2 {
   int get hashCode => Object.hash(x, y);
 
   @override
-  bool operator ==(Object other) {
-    return other is Point2 && x == other.x && y == other.y;
-  }
+  bool operator ==(Object other) =>
+      other is Point2 && x == other.x && y == other.y;
 
   @override
-  String toString() {
-    return '($x, $y)';
-  }
+  String toString() => '($x, $y)';
 }
 
 class Point3 {
   const Point3(this.x, this.y, this.z);
 
-  factory Point3.origin() {
-    return Point3(0, 0, 0);
-  }
+  factory Point3.origin() => Point3(0, 0, 0);
 
   /// Adds multiple [Point3]s together by summing their [x]s, [y]s and [z]s.
-  factory Point3.add(Iterable<Point3> points) {
-    return Point3(
-      points.map((Point3 p) => p.x).sum(),
-      points.map((Point3 p) => p.y).sum(),
-      points.map((Point3 p) => p.z).sum(),
-    );
-  }
+  factory Point3.add(Iterable<Point3> points) => Point3(
+        points.map((Point3 p) => p.x).sum(),
+        points.map((Point3 p) => p.y).sum(),
+        points.map((Point3 p) => p.z).sum(),
+      );
 
   final int x;
   final int y;
@@ -125,20 +112,16 @@ class Point3 {
 
   /// Returns a new [Point3] with [this.x] increased by [x], [this.y] increased
   /// by [y] and [this.z] increased by [z].
-  Point3 add({int? x, int? y, int? z}) {
-    return Point3(this.x + (x ?? 0), this.y + (y ?? 0), this.z + (z ?? 0));
-  }
+  Point3 add({int? x, int? y, int? z}) =>
+      Point3(this.x + (x ?? 0), this.y + (y ?? 0), this.z + (z ?? 0));
 
   @override
   int get hashCode => Object.hash(x, y, z);
 
   @override
-  bool operator ==(Object other) {
-    return other is Point3 && x == other.x && y == other.y && z == other.z;
-  }
+  bool operator ==(Object other) =>
+      other is Point3 && x == other.x && y == other.y && z == other.z;
 
   @override
-  String toString() {
-    return '($x, $y, $z)';
-  }
+  String toString() => '($x, $y, $z)';
 }

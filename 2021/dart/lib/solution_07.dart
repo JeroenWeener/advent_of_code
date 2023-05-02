@@ -12,15 +12,13 @@ void main(List<String> args) async {
 }
 
 int part1(List<int> input) {
-  return Pair(input.min(), input.max())
-      .range()
+  return range(input.min(), input.max())
       .map((int end) => input.map((int start) => (end - start).abs()).sum())
       .min();
 }
 
 int part2(List<int> input) {
-  return Pair(input.min(), input.max())
-      .range()
+  return range(input.min(), input.max())
       .map((int end) =>
           input.map((int start) => (end - start).abs().triangular()).sum())
       .min();

@@ -111,8 +111,8 @@ class Solver<I, O> {
   Future<void> execute() async {
     print('Executing $_year, day $_day');
 
+    print('');
     if (_part1 != null) {
-      print('');
       print('--- Part 1 ---');
       _executeTest(_part1!, _testOutput1 as O);
       if (!_testsOnly) {
@@ -122,8 +122,8 @@ class Solver<I, O> {
       print('No parameters provided for part 1.');
     }
 
+    print('');
     if (_part2 != null) {
-      print('');
       print('--- Part 2 ---');
       _executeTest(_part2!, _testOutput2 as O);
       if (!_testsOnly) {
@@ -182,7 +182,6 @@ class Solver<I, O> {
   }
 
   @override
-  String toString() {
-    return 'AocApiManager $hashCode: {year: $_year, day: $_day, sessionId: $_sessionId}';
-  }
+  String toString() =>
+      'AocApiManager $hashCode: {year: $_year, day: $_day, sessionId: $_sessionId}';
 }

@@ -16,14 +16,11 @@ String getSessionId() {
 /// Determines the year from the directory structure.
 ///
 /// Assumes the current working directory is `advent_of_code/year/dart`.
-String getYearString() {
-  return Directory.current.parent.path.split(Platform.pathSeparator).last;
-}
+String getYearString() =>
+    Directory.current.parent.path.split(Platform.pathSeparator).last;
 
 /// Same as [getYearString], but returns an [int].
-int getYearInt() {
-  return int.parse(getYearString());
-}
+int getYearInt() => int.parse(getYearString());
 
 /// Determines the day from the executing file.
 ///
@@ -34,14 +31,11 @@ int getYearInt() {
 ///
 /// Path is split on '/' instead of [Platform.pathSeparator], as somehow the
 /// path uses '/' regardless of platform.
-String getDayString() {
-  return Platform.script.path.split('/').last.split(RegExp(r'[_.]'))[1];
-}
+String getDayString() =>
+    Platform.script.path.split('/').last.split(RegExp(r'[_.]'))[1];
 
 /// Same as [getDayString], but returns an [int].
 ///
 /// This is useful when not interested in leading zeros, for example when
 /// requesting puzzle input by url.
-int getDayInt() {
-  return int.parse(getDayString());
-}
+int getDayInt() => int.parse(getDayString());

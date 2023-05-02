@@ -95,11 +95,10 @@ extension GridExtension<E> on Grid<E> {
     final String joinString =
         lineSeparator.isEmpty ? '\n' : '\n${addBorder(lineSeparator)}\n';
 
-    final String output = height
-        .range()
+    final String output = range(0, height)
         .map(
           (int y) => addBorder(
-            width.range().map(
+            range(0, width).map(
               (int x) {
                 final E? element = this[Point2(x + minX, y + minY)];
                 final String elementString =

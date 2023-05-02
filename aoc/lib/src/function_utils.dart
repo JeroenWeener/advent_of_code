@@ -5,7 +5,5 @@ extension FunctionExtension<T> on T Function(T) {
   /// of one iteration to the input of the next iteration.
   ///
   /// See also [IntExtension.iterate].
-  T applyNTimes(T value, int n) {
-    return n.iterate(value, this);
-  }
+  T applyNTimes(T value, int n) => n.iterate(value, this);
 }

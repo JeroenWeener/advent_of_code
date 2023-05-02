@@ -29,9 +29,8 @@ extension IterableExtension<E> on Iterable<E> {
 
   /// Implementation of [map] that passes both the iteration and the element to
   /// the provided function [f].
-  Iterable<R> mapI<R>(R Function(int, E) f) {
-    return zip(length.range()).map((Pair<E, int> e) => f(e.r, e.l));
-  }
+  Iterable<R> mapI<R>(R Function(int, E) f) =>
+      zip(range(0, length)).map((Pair<E, int> e) => f(e.r, e.l));
 
   /// Zips this with [other].
   ///
@@ -81,9 +80,7 @@ extension IterableExtension<E> on Iterable<E> {
 
 extension NumberIterableExtension<E extends num> on Iterable<E> {
   /// Scales all elements in this with [factor].
-  Iterable<num> operator *(int factor) {
-    return map((E e) => e * factor);
-  }
+  Iterable<num> operator *(int factor) => map((E e) => e * factor);
 
   /// Scales elements in this with elements in [other].
   Iterable<num> multiply(Iterable<num> other) {
@@ -92,19 +89,13 @@ extension NumberIterableExtension<E extends num> on Iterable<E> {
   }
 
   /// Returns the lowest value in this.
-  E min() {
-    return reduce((E a, E b) => a < b ? a : b);
-  }
+  E min() => reduce((E a, E b) => a < b ? a : b);
 
   /// Returns the highest value in this.
-  E max() {
-    return reduce((E a, E b) => a > b ? a : b);
-  }
+  E max() => reduce((E a, E b) => a > b ? a : b);
 
   /// Returns the sum of the values in this.
-  E sum() {
-    return reduce((E a, E b) => a + b as E);
-  }
+  E sum() => reduce((E a, E b) => a + b as E);
 
   /// Returns an [Iterable] emitting the differences between the values in this.
   ///
@@ -126,9 +117,7 @@ extension NumberIterableExtension<E extends num> on Iterable<E> {
   }
 
   /// Sames as [diff], but returns the differences as absolute values.
-  Iterable<E> diffAbs() {
-    return diff().map((E e) => e.abs() as E);
-  }
+  Iterable<E> diffAbs() => diff().map((E e) => e.abs() as E);
 }
 
 extension StringIterableExtensions on Iterable<String> {
@@ -196,7 +185,5 @@ extension IterableIterableExtensions<E> on Iterable<Iterable<E>> {
   }
 
   /// Flattens the iterable of iterables into a single iterable.
-  Iterable<E> flatten() {
-    return expand((Iterable<E> innerIterable) => innerIterable);
-  }
+  Iterable<E> flatten() => expand((Iterable<E> innerIterable) => innerIterable);
 }

@@ -1,4 +1,5 @@
-import 'package:aoc/aoc.dart';
+import 'package:aoc/src/iterable_extensions.dart';
+import 'package:aoc/src/pair.dart';
 import 'package:test/test.dart';
 
 void main() {

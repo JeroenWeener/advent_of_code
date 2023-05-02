@@ -47,7 +47,8 @@ int part2(List<List<List<String>>> input) {
   return input.map((List<List<String>> line) {
     final Iterable<String> leftSegment = line.first;
 
-    final String one = leftSegment.firstWhere((element) => element.length == 2);
+    final String one =
+        leftSegment.firstWhere((String sequence) => sequence.length == 2);
     final String three = leftSegment.firstWhere(
         (String sequence) => sequence.length == 5 && (one - sequence).isEmpty);
     final String six = leftSegment.firstWhere((String sequence) =>

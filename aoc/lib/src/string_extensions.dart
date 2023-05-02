@@ -1,9 +1,14 @@
-import 'package:aoc/aoc.dart';
+import 'package:aoc/src/int_extensions.dart';
 
 extension StringExtension on String {
-  /// Removes all characters in [other] from the [String].
-  String operator -(String other) {
-    return where((s) => !other.contains(s)).join();
+  String operator &(String other) => this + (other - this);
+  String operator |(String other) => where((s) => other.contains(s)).join();
+  String operator ^(String other) => (other - this) + (this - other);
+  String operator -(String other) => where((s) => !other.contains(s)).join();
+
+  /// Performs classic [map] on the characters of the [String].
+  Iterable<String> map(String Function(String c) f) sync* {
+    length.range().map((int index) => f(this[index]));
   }
 
   /// Performs classic [every] on the characters of the [String].

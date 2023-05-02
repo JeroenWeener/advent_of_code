@@ -1,6 +1,7 @@
 import 'package:aoc/src/int_extensions.dart';
 import 'package:aoc/src/iterable_extensions.dart';
 import 'package:aoc/src/point.dart';
+import 'package:aoc/src/utils.dart';
 
 typedef Grid<E> = Map<Point2, E>;
 typedef GridItem<E> = MapEntry<Point2, E>;
@@ -72,6 +73,7 @@ extension GridExtension<E> on Grid<E> {
     String? separatorHorizontal,
     String? separatorIntersection,
     bool showBorder = false,
+    Iterable<Point2> highlightedPoints = const <Point2>[],
   }) {
     assert(
         separatorIntersection == null ||
@@ -84,7 +86,7 @@ extension GridExtension<E> on Grid<E> {
 
     final int elementCharacterSize = [
       ...values.map((e) => e.toString().length),
-      defaultValue.toString().length
+      if (defaultValue != null) defaultValue.toString().length,
     ].max();
     final String intersectionString =
         separatorIntersection ?? separatorVertical * separatorVertical.length;
@@ -100,11 +102,15 @@ extension GridExtension<E> on Grid<E> {
           (int y) => addBorder(
             range(0, width).map(
               (int x) {
-                final E? element = this[Point2(x + minX, y + minY)];
+                final Point2 point = Point2(x + minX, y + minY);
+                final E? element = this[point];
                 final String elementString =
                     (element ?? defaultValue ?? ' ').toString();
                 final int padding = elementCharacterSize - elementString.length;
-                return elementString
+
+                return (highlightedPoints.contains(point)
+                        ? highlight(elementString)
+                        : elementString)
                     .padLeft(elementCharacterSize - padding ~/ 2)
                     .padRight(elementCharacterSize);
               },

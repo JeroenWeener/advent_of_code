@@ -2,11 +2,19 @@ import 'package:aoc/aoc.dart';
 
 extension IterableExtension<E> on Iterable<E> {
   /// Prints elements emitted by the [Iterable] and re-emits them.
-  Iterable<E> mapPrint() {
+  ///
+  /// Optionally, a function [f] can be passed that dictates what should be
+  /// printed exactly.
+  Iterable<E> mapPrint([Function(E element)? f]) {
     return map((E e) {
-      print(e);
+      print(f == null ? e : f(e));
       return e;
     });
+  }
+
+  Iterable<E> printLength() {
+    print(length);
+    return this;
   }
 
   /// Returns all unique elements paired with the number of occurences they have
@@ -95,7 +103,10 @@ extension NumberIterableExtension<E extends num> on Iterable<E> {
   E max() => reduce((E a, E b) => a > b ? a : b);
 
   /// Returns the sum of the values in this.
-  E sum() => reduce((E a, E b) => a + b as E);
+  E sum() => length == 0 ? 0 as E : reduce((E a, E b) => a + b as E);
+
+  /// Returns the product of the values in this.
+  E product() => reduce((E a, E b) => (a * b) as E);
 
   /// Returns an [Iterable] emitting the differences between the values in this.
   ///

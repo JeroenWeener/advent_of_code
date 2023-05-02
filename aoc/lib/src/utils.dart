@@ -39,3 +39,6 @@ String getDayString() =>
 /// This is useful when not interested in leading zeros, for example when
 /// requesting puzzle input by url.
 int getDayInt() => int.parse(getDayString());
+
+/// Returns [String] that will be highlighted yellow in terminals.
+String highlight(String string) => '\x1B[33m$string\x1B[0m';

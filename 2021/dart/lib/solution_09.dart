@@ -32,7 +32,7 @@ Grid<int> transformInput(List<String> input) {
 Iterable<GridItem<int>> getLowestPoints(Grid<int> grid) {
   return grid.entries.where((GridItem<int> tile) {
     Iterable<int> neighborValues = grid
-        .neighbors(tile.key)
+        .neighbors(tile.point2)
         .map((GridItem<int> neighbor) => neighbor.value);
     return tile.value < neighborValues.min();
   });
@@ -51,21 +51,21 @@ int bfs(
   final Set<Point2> visitedPoints = {};
   final Queue<GridItem<int>> queue = Queue();
   queue.add(startingPoint);
-  visitedPoints.add(startingPoint.key);
+  visitedPoints.add(startingPoint.point2);
 
   while (queue.isNotEmpty) {
     final GridItem<int> currentPoint = queue.removeFirst();
 
     final List<GridItem<int>> basinNeighbors = grid
-        .neighbors(currentPoint.key)
+        .neighbors(currentPoint.point2)
         .where((GridItem<int> neighbor) => neighbor.value >= currentPoint.value)
         .where((GridItem<int> neighbor) => neighbor.value < 9)
-        .where(
-            (GridItem<int> neighbor) => !visitedPoints.contains(neighbor.key))
+        .where((GridItem<int> neighbor) =>
+            !visitedPoints.contains(neighbor.point2))
         .toList();
 
-    visitedPoints
-        .addAll(basinNeighbors.map((GridItem<int> neighbor) => neighbor.key));
+    visitedPoints.addAll(
+        basinNeighbors.map((GridItem<int> neighbor) => neighbor.point2));
     queue.addAll(basinNeighbors);
   }
 

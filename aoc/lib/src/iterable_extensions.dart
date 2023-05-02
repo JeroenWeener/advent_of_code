@@ -37,7 +37,7 @@ extension IterableExtension<E> on Iterable<E> {
 
   /// Implementation of [map] that passes both the iteration and the element to
   /// the provided function [f].
-  Iterable<R> mapI<R>(R Function(int, E) f) =>
+  Iterable<R> mapI<R>(R Function(int index, E element) f) =>
       zip(range(0, length)).map((Pair<E, int> e) => f(e.r, e.l));
 
   /// Zips this with [other].
@@ -162,6 +162,19 @@ extension StringIterableExtensions on Iterable<String> {
     return first.length.fori((int i) => map((String s) => s[i]).join());
   }
 
+  /// Parses this [Iterable] of [String]s to a [Grid].
+  ///
+  /// Each [String] is a row. The characters of the [String] are the
+  /// [GridItem]s. Spaces are treated as empty tiles.
+  Grid<String> toGrid() {
+    return Grid.fromEntries(
+      mapI(
+        (int y, String s) =>
+            s.mapI((int x, String c) => GridItem<String>(Point2(x, y), c)),
+      ).flatten().where((GridItem<String> tile) => tile.value != ' '),
+    );
+  }
+
   /// Splits this iterable into multiple iterables, splitting on empty strings.
   Iterable<List<String>> splitOnEmptyLine() sync* {
     final Iterator iterableIterator = iterator;
@@ -185,6 +198,20 @@ extension StringIterableExtensions on Iterable<String> {
 }
 
 extension IterableIterableExtensions<E> on Iterable<Iterable<E>> {
+  /// Parses this [Iterable] of [Iterable]s to a [Grid].
+  ///
+  /// The outer [Iterable] specifies the row, while inner [Iterable]s specify
+  /// column.
+  Grid<E> toGrid() {
+    return Grid.fromEntries(
+      mapI(
+        (int y, Iterable<E> innerIterable) => innerIterable.mapI(
+          (int x, E element) => GridItem<E>(Point2(x, y), element),
+        ),
+      ).flatten(),
+    );
+  }
+
   /// Transpose elements as if they were in a matrix.
   Iterable<Iterable<E>> transpose() {
     assert(skip(1).every((e) => e.length == first.length),

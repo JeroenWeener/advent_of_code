@@ -1,10 +1,17 @@
 import 'package:aoc/src/int_extensions.dart';
 import 'package:aoc/src/iterable_extensions.dart';
+import 'package:aoc/src/pair.dart';
 import 'package:aoc/src/point.dart';
 import 'package:aoc/src/utils.dart';
 
 typedef Grid<E> = Map<Point2, E>;
 typedef GridItem<E> = MapEntry<Point2, E>;
+
+extension GridItemExtension<E> on GridItem<E> {
+  Pair<Point2, E> toPair() => Pair(key, value);
+
+  Point2 get point2 => key;
+}
 
 extension GridExtension<E> on Grid<E> {
   int get minX => keys.map((Point2 p) => p.x).min();

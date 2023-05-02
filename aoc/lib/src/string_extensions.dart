@@ -6,7 +6,7 @@ extension StringExtension on String {
   String operator ^(String other) => (other - this) + (this - other);
   String operator -(String other) => where((s) => !other.contains(s)).join();
 
-  /// Pick single characters between [start] (inclusive) and [end] (exclusive),
+  /// Picks single characters between [start] (inclusive) and [end] (exclusive),
   /// skipping [step] characters in between.
   String pick(int start, int end, [int? step]) =>
       range(start, end, step ?? (start < end ? 1 : -1))
@@ -30,6 +30,9 @@ extension StringExtension on String {
   /// Performs classic [map] on the characters of the [String].
   Iterable<String> map(String Function(String c) f) =>
       range(0, length).map((int index) => f(this[index]));
+
+  Iterable<T> mapI<T>(T Function(int index, String c) f) =>
+      range(0, length).map((int i) => f(i, this[i]));
 
   /// Performs classic [every] on the characters of the [String].
   bool every(bool Function(String s) f) =>

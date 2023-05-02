@@ -1,5 +1,7 @@
+import 'package:aoc/src/grid.dart';
 import 'package:aoc/src/iterable_extensions.dart';
 import 'package:aoc/src/pair.dart';
+import 'package:aoc/src/point.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -110,6 +112,71 @@ void main() {
   });
 
   group('Iterable<String>', () {
+    group('toGrid', () {
+      test('correctly parses grid', () {
+        final Iterable<String> iterable = [
+          'abc',
+          'def',
+          'ghi',
+        ];
+
+        final Grid<String> actual = iterable.toGrid();
+
+        expect(
+          actual.entries.map((e) => e.toPair()).toList(),
+          [
+            Pair(Point2(0, 0), 'a'),
+            Pair(Point2(1, 0), 'b'),
+            Pair(Point2(2, 0), 'c'),
+            Pair(Point2(0, 1), 'd'),
+            Pair(Point2(1, 1), 'e'),
+            Pair(Point2(2, 1), 'f'),
+            Pair(Point2(0, 2), 'g'),
+            Pair(Point2(1, 2), 'h'),
+            Pair(Point2(2, 2), 'i'),
+          ],
+        );
+      });
+
+      test('leaves out space characters', () {
+        final Iterable<String> iterable = [
+          'ab ',
+          'd f',
+          ' hi',
+        ];
+
+        final Grid<String> actual = iterable.toGrid();
+
+        expect(actual.entries.map((e) => e.toPair()).toList(), [
+          Pair(Point2(0, 0), 'a'),
+          Pair(Point2(1, 0), 'b'),
+          Pair(Point2(0, 1), 'd'),
+          Pair(Point2(2, 1), 'f'),
+          Pair(Point2(1, 2), 'h'),
+          Pair(Point2(2, 2), 'i'),
+        ]);
+      });
+
+      test('handles unequal line lengths', () {
+        final Iterable<String> iterable = [
+          'abc',
+          'de',
+          'g',
+        ];
+
+        final Grid<String> actual = iterable.toGrid();
+
+        expect(actual.entries.map((e) => e.toPair()).toList(), [
+          Pair(Point2(0, 0), 'a'),
+          Pair(Point2(1, 0), 'b'),
+          Pair(Point2(2, 0), 'c'),
+          Pair(Point2(0, 1), 'd'),
+          Pair(Point2(1, 1), 'e'),
+          Pair(Point2(0, 2), 'g'),
+        ]);
+      });
+    });
+
     group('splitOnEmptyLine', () {
       test('splits on empty line', () {
         final Iterable<String> iterable = ['this', 'is', '', 'a', 'test'];
@@ -125,6 +192,52 @@ void main() {
   });
 
   group('Iterable<Iterable<T>>', () {
+    group('toGrid', () {
+      test('correctly parses grid', () {
+        final Iterable<Iterable<int>> iterable = [
+          [1, 2, 3],
+          [4, 5, 6],
+          [7, 8, 9],
+        ];
+
+        final Grid<int> actual = iterable.toGrid();
+
+        expect(
+          actual.entries.map((e) => e.toPair()).toList(),
+          [
+            Pair(Point2(0, 0), 1),
+            Pair(Point2(1, 0), 2),
+            Pair(Point2(2, 0), 3),
+            Pair(Point2(0, 1), 4),
+            Pair(Point2(1, 1), 5),
+            Pair(Point2(2, 1), 6),
+            Pair(Point2(0, 2), 7),
+            Pair(Point2(1, 2), 8),
+            Pair(Point2(2, 2), 9),
+          ],
+        );
+      });
+
+      test('handles unequal iterable lengths', () {
+        final Iterable<Iterable<int>> iterable = [
+          [1, 2, 3],
+          [4, 5],
+          [7],
+        ];
+
+        final Grid<int> actual = iterable.toGrid();
+
+        expect(actual.entries.map((e) => e.toPair()).toList(), [
+          Pair(Point2(0, 0), 1),
+          Pair(Point2(1, 0), 2),
+          Pair(Point2(2, 0), 3),
+          Pair(Point2(0, 1), 4),
+          Pair(Point2(1, 1), 5),
+          Pair(Point2(0, 2), 7),
+        ]);
+      });
+    });
+
     group('transpose', () {
       test('transposes the iterable', () {
         final Iterable<Iterable<int>> iterable = [

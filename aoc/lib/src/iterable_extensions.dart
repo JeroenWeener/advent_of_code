@@ -162,18 +162,11 @@ extension StringIterableExtensions on Iterable<String> {
     return first.length.fori((int i) => map((String s) => s[i]).join());
   }
 
-  /// Parses this [Iterable] of [String]s to a [Grid].
+  /// Transforms this [Iterable] of [String]s to a [StringGrid].
   ///
   /// Each [String] is a row. The characters of the [String] are the
-  /// [GridItem]s. Spaces are treated as empty tiles.
-  Grid<String> toGrid() {
-    return Grid.fromEntries(
-      mapI(
-        (int y, String s) =>
-            s.mapI((int x, String c) => GridItem<String>(Point2(x, y), c)),
-      ).flatten().where((GridItem<String> tile) => tile.value != ' '),
-    );
-  }
+  /// [StringGridItem]s.
+  StringGrid toStringGrid() => toList();
 
   /// Splits this iterable into multiple iterables, splitting on empty strings.
   Iterable<List<String>> splitOnEmptyLine() sync* {

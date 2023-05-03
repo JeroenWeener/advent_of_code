@@ -32,8 +32,19 @@ extension IterableExtension<E> on Iterable<E> {
         .map((MapEntry<E, int> entry) => Pair(entry.key, entry.value));
   }
 
-  /// Convience getter for accessing the second element in an [Iterable].
+  /// Convenience getter for accessing the second element in an [Iterable].
   E get second => elementAt(1);
+
+  /// Convenience getter for accessing the middle element in an [Iterable].
+  ///
+  /// Asserts whether the iterable has an uneven number of elements.
+  E get middle {
+    assert(
+      length % 2 == 1,
+      'Cannot get middle element of iterable with an even number of elements',
+    );
+    return elementAt(length ~/ 2);
+  }
 
   /// Implementation of [map] that passes both the iteration and the element to
   /// the provided function [f].

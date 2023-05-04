@@ -127,7 +127,7 @@ void main() {
   });
 
   group('Iterable<Iterable<T>>', () {
-    group('toGrid', () {
+    group('toUnboundGrid', () {
       test('correctly parses grid', () {
         final Iterable<Iterable<int>> iterable = [
           [1, 2, 3],
@@ -135,7 +135,7 @@ void main() {
           [7, 8, 9],
         ];
 
-        final Grid<int> actual = iterable.toGrid();
+        final UnboundGrid<int> actual = iterable.toUnboundGrid();
 
         expect(
           actual.entries.map((e) => e.toPair()).toList(),
@@ -160,7 +160,7 @@ void main() {
           [7],
         ];
 
-        final Grid<int> actual = iterable.toGrid();
+        final UnboundGrid<int> actual = iterable.toUnboundGrid();
 
         expect(actual.entries.map((e) => e.toPair()).toList(), [
           Pair(Point2(0, 0), 1),

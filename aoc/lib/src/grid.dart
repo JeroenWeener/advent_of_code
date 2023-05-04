@@ -4,35 +4,10 @@ import 'package:aoc/src/pair.dart';
 import 'package:aoc/src/point.dart';
 import 'package:aoc/src/utils.dart';
 
-typedef Grid<E> = Map<Point2, E>;
-typedef GridItem<E> = MapEntry<Point2, E>;
+typedef UnboundGrid<E> = Map<Point2, E>;
+typedef UnboundGridItem<E> = MapEntry<Point2, E>;
 typedef StringGrid = List<String>;
 typedef StringGridItem = Pair<Point2, String>;
-
-void main(List<String> args) {
-  StringGrid grid = [
-    'abc',
-    'def',
-    'ghi',
-  ];
-
-  print(grid.toPrettyString(
-    highlightedPoints: [Point2(1, 1)],
-    showBorder: true,
-    rowSeparator: '-',
-    columnSeparator: '|',
-  ));
-
-  print([
-    [1, 2, 4],
-    [1, 5, 7],
-    [7, 3, 7],
-  ].toGrid().toPrettyString(
-        showBorder: true,
-        rowSeparator: '-',
-        columnSeparator: '|',
-      ));
-}
 
 extension StringGridItemExtension on StringGridItem {
   Point2 get point2 => left;
@@ -134,13 +109,13 @@ extension StringGridExtension on StringGrid {
   }
 }
 
-extension GridItemExtension<E> on GridItem<E> {
+extension GridItemExtension<E> on UnboundGridItem<E> {
   Pair<Point2, E> toPair() => Pair(key, value);
 
   Point2 get point2 => key;
 }
 
-extension GridExtension<E> on Grid<E> {
+extension GridExtension<E> on UnboundGrid<E> {
   int get minX => keys.map((Point2 p) => p.x).min();
   int get maxX => keys.map((Point2 p) => p.x).max();
   int get minY => keys.map((Point2 p) => p.y).min();
@@ -148,10 +123,10 @@ extension GridExtension<E> on Grid<E> {
   int get width => maxX - minX + 1;
   int get height => maxY - minY + 1;
 
-  Grid<E> clone() => {...this};
+  UnboundGrid<E> clone() => {...this};
 
   /// Shorthand for [neighbors].
-  List<GridItem<E>> ns(
+  List<UnboundGridItem<E>> ns(
     Point2 p, {
     bool considerDiagonals = false,
   }) =>
@@ -165,21 +140,22 @@ extension GridExtension<E> on Grid<E> {
   /// Neighbors are defined as the [Point2]s next to [point], either
   /// horizontally or vertically. If [considerDiagonals] is set, diagonal points
   /// are also returned as neighbors.
-  List<GridItem<E>> neighbors(
+  List<UnboundGridItem<E>> neighbors(
     Point2 point, {
     bool considerDiagonals = false,
   }) {
-    final Iterable<GridItem<E>?> entriesNullable = entries.cast<GridItem<E>?>();
-    final GridItem<E>? u = entriesNullable.firstWhere((e) => e!.key == point.u,
-        orElse: () => null);
-    final GridItem<E>? r = entriesNullable.firstWhere((e) => e!.key == point.r,
-        orElse: () => null);
-    final GridItem<E>? d = entriesNullable.firstWhere((e) => e!.key == point.d,
-        orElse: () => null);
-    final GridItem<E>? l = entriesNullable.firstWhere((e) => e!.key == point.l,
-        orElse: () => null);
+    final Iterable<UnboundGridItem<E>?> entriesNullable =
+        entries.cast<UnboundGridItem<E>?>();
+    final UnboundGridItem<E>? u = entriesNullable
+        .firstWhere((e) => e!.key == point.u, orElse: () => null);
+    final UnboundGridItem<E>? r = entriesNullable
+        .firstWhere((e) => e!.key == point.r, orElse: () => null);
+    final UnboundGridItem<E>? d = entriesNullable
+        .firstWhere((e) => e!.key == point.d, orElse: () => null);
+    final UnboundGridItem<E>? l = entriesNullable
+        .firstWhere((e) => e!.key == point.l, orElse: () => null);
 
-    List<GridItem<E>> neighbors = [
+    List<UnboundGridItem<E>> neighbors = [
       if (u != null) u,
       if (r != null) r,
       if (d != null) d,
@@ -190,13 +166,13 @@ extension GridExtension<E> on Grid<E> {
       return neighbors;
     }
 
-    final GridItem<E>? ur = entriesNullable
+    final UnboundGridItem<E>? ur = entriesNullable
         .firstWhere((e) => e!.key == point.u.r, orElse: () => null);
-    final GridItem<E>? dr = entriesNullable
+    final UnboundGridItem<E>? dr = entriesNullable
         .firstWhere((e) => e!.key == point.d.r, orElse: () => null);
-    final GridItem<E>? dl = entriesNullable
+    final UnboundGridItem<E>? dl = entriesNullable
         .firstWhere((e) => e!.key == point.d.l, orElse: () => null);
-    final GridItem<E>? ul = entriesNullable
+    final UnboundGridItem<E>? ul = entriesNullable
         .firstWhere((e) => e!.key == point.u.l, orElse: () => null);
 
     return [

@@ -202,15 +202,15 @@ extension StringIterableExtensions on Iterable<String> {
 }
 
 extension IterableIterableExtensions<E> on Iterable<Iterable<E>> {
-  /// Parses this [Iterable] of [Iterable]s to a [Grid].
+  /// Parses this [Iterable] of [Iterable]s to an [UnboundGrid].
   ///
   /// The outer [Iterable] specifies the row, while inner [Iterable]s specify
   /// column.
-  Grid<E> toGrid() {
-    return Grid.fromEntries(
+  UnboundGrid<E> toUnboundGrid() {
+    return UnboundGrid.fromEntries(
       mapI(
         (int y, Iterable<E> innerIterable) => innerIterable.mapI(
-          (int x, E element) => GridItem<E>(Point2(x, y), element),
+          (int x, E element) => UnboundGridItem<E>(Point2(x, y), element),
         ),
       ).flatten(),
     );

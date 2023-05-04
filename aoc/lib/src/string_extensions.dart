@@ -28,7 +28,7 @@ extension StringExtension on String {
   String takeOneEvery(int n) => range(0, length, n).map((s) => this[s]).join();
 
   /// Performs classic [map] on the characters of the [String].
-  Iterable<String> map(String Function(String c) f) =>
+  Iterable<T> map<T>(T Function(String c) f) =>
       range(0, length).map((int index) => f(this[index]));
 
   Iterable<T> mapI<T>(T Function(int index, String c) f) =>

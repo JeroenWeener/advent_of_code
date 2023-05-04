@@ -45,9 +45,12 @@ String highlight(String string, [HighlightColor hc = HighlightColor.yellow]) {
   return '${hc.openingTag}$string\x1B[0m';
 }
 
+typedef HC = HighlightColor;
+
 enum HighlightColor {
   yellow('\x1B[33m'),
-  red('\x1B[31m');
+  red('\x1B[31m'),
+  green('\x1B[32m');
 
   const HighlightColor(this.openingTag);
 

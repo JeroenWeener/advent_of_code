@@ -1,6 +1,3 @@
-import 'dart:convert';
-import 'dart:io';
-
 import 'package:aoc/src/aoc_manager.dart';
 import 'package:aoc/src/utils.dart';
 
@@ -22,7 +19,7 @@ import 'package:aoc/src/utils.dart';
 /// session identifier needed for authentication.
 class Solver<I, O> {
   Solver({
-    I Function(List<String>)? inputTransformer,
+    I Function(List<String> input)? inputTransformer,
     O Function(I)? part1,
     O Function(I)? part2,
     O? testOutput1,
@@ -93,10 +90,11 @@ class Solver<I, O> {
       print('Test: Actual: $actual ($executionTimeMillis ms)');
     } else {
       if (expected == actual) {
-        print('Test: Passed ($executionTimeMillis ms)');
+        print(
+            'Test: ${highlight('Passed', HC.green)} ($executionTimeMillis ms)');
       } else {
         print(
-            'Test: Failed. Expected: $expected. Actual: $actual ($executionTimeMillis ms)');
+            'Test: ${highlight('Failed. Expected: $expected. Actual: $actual', HC.red)} ($executionTimeMillis ms)');
       }
     }
   }

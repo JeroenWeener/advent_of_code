@@ -4,18 +4,6 @@ void main(List<String> args) async {
   Solver<List<String>, int>(
     part1: part1,
     part2: part2,
-    testInput: [
-      '0,9 -> 5,9',
-      '8,0 -> 0,8',
-      '9,4 -> 3,4',
-      '2,2 -> 2,1',
-      '7,0 -> 7,4',
-      '6,4 -> 2,0',
-      '0,9 -> 2,9',
-      '3,4 -> 1,4',
-      '0,0 -> 8,8',
-      '5,5 -> 8,2',
-    ],
     testOutput1: 5,
     testOutput2: 12,
   ).execute();

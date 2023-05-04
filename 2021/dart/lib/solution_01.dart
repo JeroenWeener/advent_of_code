@@ -4,18 +4,6 @@ void main(List<String> args) async {
   Solver<List<int>, int>(
     part1: part1,
     part2: part2,
-    testInput: [
-      199,
-      200,
-      208,
-      210,
-      200,
-      207,
-      240,
-      269,
-      260,
-      263,
-    ],
     testOutput1: 7,
     testOutput2: 5,
   ).execute();

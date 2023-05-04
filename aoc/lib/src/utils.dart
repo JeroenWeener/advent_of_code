@@ -41,4 +41,15 @@ String getDayString() =>
 int getDayInt() => int.parse(getDayString());
 
 /// Returns [String] that will be highlighted yellow in terminals.
-String highlight(String string) => '\x1B[33m$string\x1B[0m';
+String highlight(String string, [HighlightColor hc = HighlightColor.yellow]) {
+  return '${hc.openingTag}$string\x1B[0m';
+}
+
+enum HighlightColor {
+  yellow('\x1B[33m'),
+  red('\x1B[31m');
+
+  const HighlightColor(this.openingTag);
+
+  final String openingTag;
+}

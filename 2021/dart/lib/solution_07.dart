@@ -5,7 +5,6 @@ void main(List<String> args) async {
     part1: part1,
     part2: part2,
     inputTransformer: (List<String> input) => input.first.extractInts(),
-    testInput: [16, 1, 2, 0, 4, 2, 7, 1, 2, 14],
     testOutput1: 37,
     testOutput2: 168,
   ).execute();

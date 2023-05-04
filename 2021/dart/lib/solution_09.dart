@@ -7,13 +7,6 @@ void main(List<String> args) async {
     part1: part1,
     part2: part2,
     inputTransformer: transformInput,
-    testInput: transformInput([
-      '2199943210',
-      '3987894921',
-      '9856789892',
-      '8767896789',
-      '9899965678',
-    ]),
     testOutput1: 15,
     testOutput2: 1134,
   ).execute();

@@ -1,14 +1,16 @@
 import 'package:aoc/aoc.dart';
 
-void main(List<String> args) async {
+void main(List<String> args) {
   Solver<List<int>, int>(
     part1: part1,
     part2: part2,
-    inputTransformer: (List<String> input) => input.first.extractInts(),
+    inputTransformer: transformInput,
     testOutput1: 5934,
     testOutput2: 26984457539,
   ).execute();
 }
+
+List<int> transformInput(List<String> input) => input.first.extractInts();
 
 int part1(Iterable<int> fish) {
   Iterable<int> iterate(Iterable<int> fish) {

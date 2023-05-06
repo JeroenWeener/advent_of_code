@@ -1,6 +1,6 @@
 import 'package:aoc/aoc.dart';
 
-void main(List<String> args) async {
+void main(List<String> args) {
   Solver<Pair<Iterable<int>, List<Board>>, int>(
     part1: (e) => part1(e.l, e.r),
     part2: (e) => part2(e.l, e.r),

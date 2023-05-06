@@ -69,3 +69,7 @@ extension IntIntPairExtension on Pair<int, int> {
   /// [r].
   Iterable<int> toRange({int? step}) => range(l, r, step).map((int e) => e + l);
 }
+
+extension SameTypePairExtension<T> on Pair<T, T> {
+  List<T> toList() => [l, r];
+}

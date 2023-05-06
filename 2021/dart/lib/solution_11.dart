@@ -1,6 +1,6 @@
 import 'package:aoc/aoc.dart';
 
-void main(List<String> args) async {
+void main(List<String> args) {
   Solver<List<List<int>>, int>(
     inputTransformer: transformInput,
     part1: part1,
@@ -10,9 +10,8 @@ void main(List<String> args) async {
   ).execute();
 }
 
-List<List<int>> transformInput(List<String> input) {
-  return input.map((e) => e.map((c) => int.parse(c)).toList()).toList();
-}
+List<List<int>> transformInput(List<String> input) =>
+    input.map((e) => e.map((c) => int.parse(c)).toList()).toList();
 
 int part1(List<List<int>> grid) {
   List<List<int>> localGrid = [...grid];

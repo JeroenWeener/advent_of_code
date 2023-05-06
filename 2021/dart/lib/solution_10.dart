@@ -2,7 +2,7 @@ import 'dart:collection';
 
 import 'package:aoc/aoc.dart';
 
-void main(List<String> args) async {
+void main(List<String> args) {
   Solver<List<String>, int>(
     part1: part1,
     part2: part2,

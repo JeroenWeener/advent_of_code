@@ -1,6 +1,6 @@
 import 'package:aoc/aoc.dart';
 
-void main(List<String> args) async {
+void main(List<String> args) {
   Solver<List<List<List<String>>>, int>(
     part1: part1,
     part2: part2,
@@ -10,14 +10,10 @@ void main(List<String> args) async {
   ).execute();
 }
 
-List<List<List<String>>> transformInput(List<String> input) {
-  return input
-      .map((String line) => line
-          .split(' | ')
-          .map((String segment) => segment.split(' '))
-          .toList())
-      .toList();
-}
+List<List<List<String>>> transformInput(List<String> input) => input
+    .map((String line) =>
+        line.split(' | ').map((String segment) => segment.split(' ')).toList())
+    .toList();
 
 int part1(List<List<List<String>>> input) {
   return input

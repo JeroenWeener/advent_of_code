@@ -11,6 +11,15 @@ class Point2 {
         points.map((Point2 p) => p.y).sum(),
       );
 
+  /// Contructs a [Point2] from an [Iterable] of [int]s.
+  ///
+  /// Takes the first element as [x] and second element as [y], discarding
+  /// following elements.
+  factory Point2.fromIterable(Iterable<int> coordinates) {
+    assert(coordinates.length == 2);
+    return Point2(coordinates.first, coordinates.second);
+  }
+
   final int x;
   final int y;
 
@@ -79,6 +88,19 @@ class Point3 {
         points.map((Point3 p) => p.y).sum(),
         points.map((Point3 p) => p.z).sum(),
       );
+
+  /// Contructs a [Point3] from an [Iterable] of [int]s.
+  ///
+  /// Takes the first three elements as [x], [y] and [z], respectively,
+  /// discarding following elements.
+  factory Point3.fromIterable(Iterable<int> coordinates) {
+    assert(coordinates.length == 3);
+    return Point3(
+      coordinates.first,
+      coordinates.second,
+      coordinates.elementAt(2),
+    );
+  }
 
   final int x;
   final int y;

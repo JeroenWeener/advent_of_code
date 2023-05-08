@@ -75,7 +75,7 @@ class Solver<I, O> {
     }
   }
 
-  Future<void> _executeTest(O Function(I) solution, O expected) async {
+  Future<void> _executeTest(O Function(I) solution, O? expected) async {
     final I? testInput = await _getTestInput();
     if (testInput == null) {
       print('Missing test input.');
@@ -117,7 +117,7 @@ class Solver<I, O> {
 
     if (_part1 != null) {
       print('--- Part 1 ---');
-      await _executeTest(_part1!, _testOutput1 as O);
+      await _executeTest(_part1!, _testOutput1);
       if (!_testsOnly) {
         await _executeReal(_part1!);
       }
@@ -129,7 +129,7 @@ class Solver<I, O> {
 
     if (_part2 != null) {
       print('--- Part 2 ---');
-      await _executeTest(_part2!, _testOutput2 as O);
+      await _executeTest(_part2!, _testOutput2);
       if (!_testsOnly) {
         await _executeReal(_part2!);
       }

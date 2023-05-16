@@ -1,10 +1,30 @@
 import 'package:aoc/src/int_extensions.dart';
+import 'package:aoc/src/pair.dart';
 
 extension StringExtension on String {
   String operator &(String other) => this + (other - this);
   String operator |(String other) => where((s) => other.contains(s)).join();
   String operator ^(String other) => (other - this) + (this - other);
   String operator -(String other) => where((s) => !other.contains(s)).join();
+
+  /// Returns all unique elements paired with the number of occurences they have
+  /// in this [Iterable].
+  Iterable<Pair<String, int>> counts() {
+    final Map<String, int> counts = {};
+    for (var i = 0; i < length; i++) {
+      final String element = this[i];
+      final int? count = counts[element];
+      counts[element] = count == null ? 1 : count + 1;
+    }
+
+    return counts.entries
+        .map((MapEntry<String, int> entry) => Pair(entry.key, entry.value));
+  }
+
+  String replaceLast(Pattern from, String to, [int startIndex = 0]) {
+    int lastIndex = lastIndexOf(from);
+    return replaceFirst(from, to, lastIndex);
+  }
 
   /// Picks single characters between [start] (inclusive) and [end] (exclusive),
   /// skipping [step] characters in between.
@@ -26,6 +46,10 @@ extension StringExtension on String {
   /// Returns a [String] containing the first character and every [n]th
   /// character thereafter.
   String takeOneEvery(int n) => range(0, length, n).map((s) => this[s]).join();
+
+  String insert(String s, int index) {
+    return take(index) + s + skip(index);
+  }
 
   /// Performs classic [map] on the characters of the [String].
   Iterable<T> map<T>(T Function(String c) f) =>

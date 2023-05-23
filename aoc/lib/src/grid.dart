@@ -1,121 +1,16 @@
 import 'package:aoc/src/int_extensions.dart';
 import 'package:aoc/src/iterable_extensions.dart';
-import 'package:aoc/src/pair.dart';
 import 'package:aoc/src/point.dart';
 import 'package:aoc/src/utils.dart';
 
 typedef UnboundGrid<E> = Map<Point2, E>;
 typedef UnboundGridItem<E> = MapEntry<Point2, E>;
-typedef StringGrid = List<String>;
-typedef StringGridItem = Pair<Point2, String>;
 
-extension StringGridItemExtension on StringGridItem {
-  Point2 get point2 => left;
-  String get value => right;
-}
-
-extension StringGridExtension on StringGrid {
-  int get minX => 0;
-  int get maxX => isEmpty ? 0 : first.length;
-  int get minY => 0;
-  int get maxY => length;
-  int get width => maxX;
-  int get height => maxY;
-
-  StringGrid clone() => [...this];
-
-  List<StringGridItem> ns(
-    Point2 point, {
-    bool considerDiagonals = false,
-  }) =>
-      neighbors(
-        point,
-        considerDiagonals: considerDiagonals,
-      );
-
-  List<StringGridItem> neighbors(
-    Point2 point, {
-    bool considerDiagonals = false,
-  }) {
-    List<StringGridItem> neighbors = [
-      if (point.y > minY) StringGridItem(point.u, this[point.y - 1][point.x]),
-      if (point.x > minX) StringGridItem(point.l, this[point.y][point.x - 1]),
-      if (point.y < maxY) StringGridItem(point.d, this[point.y + 1][point.x]),
-      if (point.x < maxX) StringGridItem(point.r, this[point.y][point.x + 1]),
-    ];
-    if (!considerDiagonals) {
-      return neighbors;
-    }
-
-    return [
-      ...neighbors,
-      if (point.y > minY && point.x < maxX)
-        StringGridItem(point.u.r, this[point.y - 1][point.x + 1]),
-      if (point.y < maxY && point.x < maxX)
-        StringGridItem(point.d.r, this[point.y + 1][point.x + 1]),
-      if (point.y < maxY && point.x > minX)
-        StringGridItem(point.d.l, this[point.y + 1][point.x - 1]),
-      if (point.y > minY && point.x < maxX)
-        StringGridItem(point.u.l, this[point.y - 1][point.x - 1]),
-    ];
-  }
-
-  String toPrettyString({
-    String columnSeparator = '',
-    String rowSeparator = '',
-    String? intersectionSeparator,
-    bool showBorder = false,
-    Iterable<Point2> highlightedPoints = const <Point2>[],
-  }) {
-    assert(
-        intersectionSeparator == null ||
-            columnSeparator.length == intersectionSeparator.length,
-        'Vertical separator and intersection separator are of different length.');
-    assert(rowSeparator.length <= 1,
-        'Horizontal separator is too long. It can only contain a single character.');
-
-    String addBorder(String s) => showBorder ? '|$s|' : s;
-
-    final String intersectionString =
-        intersectionSeparator ?? ' ' * columnSeparator.length;
-    final String lineSeparator =
-        '$rowSeparator$intersectionString' * (width - 1) + rowSeparator;
-    final String joinString =
-        lineSeparator.isEmpty ? '\n' : '\n${addBorder(lineSeparator)}\n';
-
-    final String output = range(0, height)
-        .map(
-          (int y) => addBorder(
-            range(0, width).map(
-              (int x) {
-                final Point2 point = Point2(x + minX, y + minY);
-                final String element = this[y][x];
-
-                return (highlightedPoints.contains(point)
-                    ? highlight(element)
-                    : element);
-              },
-            ).join(columnSeparator),
-          ),
-        )
-        .join(joinString);
-
-    if (showBorder) {
-      final borderString =
-          '+${'-' * (width * (1 + columnSeparator.length) - columnSeparator.length)}+';
-      return '$borderString\n$output\n$borderString';
-    }
-    return output;
-  }
-}
-
-extension GridItemExtension<E> on UnboundGridItem<E> {
-  Pair<Point2, E> toPair() => Pair(key, value);
-
+extension UnboundGridItemExtension<E> on UnboundGridItem<E> {
   Point2 get point2 => key;
 }
 
-extension GridExtension<E> on UnboundGrid<E> {
+extension UnboundGridExtension<E> on UnboundGrid<E> {
   int get minX => keys.map((Point2 p) => p.x).min();
   int get maxX => keys.map((Point2 p) => p.x).max();
   int get minY => keys.map((Point2 p) => p.y).min();

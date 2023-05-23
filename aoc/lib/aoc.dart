@@ -9,3 +9,4 @@ export 'src/bool_extensions.dart';
 export 'src/string_extensions.dart';
 export 'src/function_utils.dart';
 export 'src/grid.dart';
+export 'src/map_extensions.dart';

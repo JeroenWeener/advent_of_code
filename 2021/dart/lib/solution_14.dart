@@ -33,7 +33,7 @@ int part1(Pair<String, Map<String, String>> input) {
     sequence = insert(sequence);
   }
 
-  List<Pair<String, int>> counts = sequence.counts().toList()
+  List<Pair<String, int>> counts = sequence.counts().toPairs()
     ..sort((a, b) => a.r - b.r);
   return counts.last.r - counts.first.r;
 }

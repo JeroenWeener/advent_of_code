@@ -11,7 +11,7 @@ void main(List<String> args) {
 
 int part1(List<String> input) {
   final String gamma = input.transpose().map((String row) {
-    final int zeros = row.where((String s) => s == '0').length;
+    final int zeros = row.toIterable().where((String s) => s == '0').length;
     final int ones = row.length - zeros;
     return (zeros < ones).i01;
   }).join();
@@ -27,7 +27,8 @@ int part2(List<String> input) {
   for (int i = 0; i < input.first.length; i++) {
     if (ogrCandidates.length > 1) {
       final String row = ogrCandidates.map((String c) => c[i]).join();
-      final int zeros = row.where((String bit) => bit == '0').length;
+      final int zeros =
+          row.toIterable().where((String bit) => bit == '0').length;
       final int ones = row.length - zeros;
       final String mcb = (zeros <= ones).i01.toString();
       ogrCandidates = ogrCandidates.where((String c) => c[i] == mcb);
@@ -35,7 +36,8 @@ int part2(List<String> input) {
 
     if (csrCandidates.length > 1) {
       final String row = csrCandidates.map((String c) => c[i]).join();
-      final int zeros = row.where((String bit) => bit == '0').length;
+      final int zeros =
+          row.toIterable().where((String bit) => bit == '0').length;
       final int ones = row.length - zeros;
       final String mcb = (zeros > ones).i01.toString();
       csrCandidates = csrCandidates.where((String c) => c[i] == mcb);

@@ -75,8 +75,8 @@ extension IterableExtension<E> on Iterable<E> {
   /// [windowSize] should be [1..length].
   Iterable<List<E>> slidingWindow(int windowSize) sync* {
     assert(
-        windowSize <= length, 'window size is larger than number of elements');
-    assert(windowSize > 0, 'window size should be at least 1');
+        windowSize <= length, 'Window size is larger than number of elements');
+    assert(windowSize > 0, 'Window size should be at least 1');
 
     List<E> window = [];
     final Iterator valueIterator = iterator;
@@ -103,7 +103,7 @@ extension NumberIterableExtension<E extends num> on Iterable<E> {
 
   /// Scales elements in this with elements in [other].
   Iterable<num> multiply(Iterable<num> other) {
-    assert(other.length >= length, 'Error: not enough elements to multiply');
+    assert(other.length >= length, 'Not enough elements to multiply');
     return zip(other).map((Pair<E, num> e) => e.l * e.r);
   }
 
@@ -173,11 +173,15 @@ extension StringIterableExtensions on Iterable<String> {
     return first.length.fori((int i) => map((String s) => s[i]).join());
   }
 
-  /// Transforms this [Iterable] of [String]s to a [StringGrid].
+  /// Concatenates all elements.
+  String asString() => join('');
+
+  /// Transforms this [Iterable] of [String]s to a [UnboundGrid].
   ///
-  /// Each [String] is a row. The characters of the [String] are the
-  /// [StringGridItem]s.
-  StringGrid toStringGrid() => toList();
+  /// Each [String] is a row. The characters of the [String] are the elements in
+  /// the row.
+  UnboundGrid toUnboundGrid() =>
+      map((String line) => line.toIterable().toList()).toList().toUnboundGrid();
 
   /// Splits this iterable into multiple iterables, splitting on empty strings.
   Iterable<List<String>> splitOnEmptyLine() sync* {

@@ -11,7 +11,7 @@ void main(List<String> args) {
 }
 
 List<List<int>> transformInput(List<String> input) =>
-    input.map((e) => e.map((c) => int.parse(c)).toList()).toList();
+    input.map((e) => e.toIterable().map((c) => int.parse(c)).toList()).toList();
 
 int part1(List<List<int>> grid) {
   List<List<int>> localGrid = [...grid];

@@ -1,5 +1,6 @@
 import 'package:aoc/src/grid.dart';
 import 'package:aoc/src/iterable_extensions.dart';
+import 'package:aoc/src/map_extensions.dart';
 import 'package:aoc/src/pair.dart';
 import 'package:aoc/src/point.dart';
 import 'package:test/test.dart';

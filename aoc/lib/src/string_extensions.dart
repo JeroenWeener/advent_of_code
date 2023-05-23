@@ -1,24 +1,23 @@
 import 'package:aoc/src/int_extensions.dart';
-import 'package:aoc/src/pair.dart';
 
 extension StringExtension on String {
   String operator &(String other) => this + (other - this);
-  String operator |(String other) => where((s) => other.contains(s)).join();
+  String operator |(String other) =>
+      toIterable().where((s) => other.contains(s)).join();
   String operator ^(String other) => (other - this) + (this - other);
-  String operator -(String other) => where((s) => !other.contains(s)).join();
+  String operator -(String other) =>
+      toIterable().where((s) => !other.contains(s)).join();
 
   /// Returns all unique elements paired with the number of occurences they have
   /// in this [Iterable].
-  Iterable<Pair<String, int>> counts() {
+  Map<String, int> counts() {
     final Map<String, int> counts = {};
-    for (var i = 0; i < length; i++) {
+    for (int i = 0; i < length; i++) {
       final String element = this[i];
       final int? count = counts[element];
       counts[element] = count == null ? 1 : count + 1;
     }
-
-    return counts.entries
-        .map((MapEntry<String, int> entry) => Pair(entry.key, entry.value));
+    return counts;
   }
 
   String replaceLast(Pattern from, String to, [int startIndex = 0]) {
@@ -28,13 +27,14 @@ extension StringExtension on String {
 
   /// Picks single characters between [start] (inclusive) and [end] (exclusive),
   /// skipping [step] characters in between.
-  String pick(int start, int end, [int? step]) =>
-      range(start, end, step ?? (start < end ? 1 : -1))
+  String pick(int start, [int? end, int? step]) =>
+      range(start, end ?? length, step ?? (start < (end ?? length) ? 1 : -1))
           .map((int index) => this[index])
           .join();
 
   String get first => this[0];
   String get second => this[1];
+  String get third => this[2];
   String get last => this[length - 1];
 
   /// Returns a [String] without the first [n] characters.
@@ -47,29 +47,7 @@ extension StringExtension on String {
   /// character thereafter.
   String takeOneEvery(int n) => range(0, length, n).map((s) => this[s]).join();
 
-  String insert(String s, int index) {
-    return take(index) + s + skip(index);
-  }
-
-  /// Performs classic [map] on the characters of the [String].
-  Iterable<T> map<T>(T Function(String c) f) =>
-      range(0, length).map((int index) => f(this[index]));
-
-  Iterable<T> mapI<T>(T Function(int index, String c) f) =>
-      range(0, length).map((int i) => f(i, this[i]));
-
-  /// Performs classic [every] on the characters of the [String].
-  bool every(bool Function(String s) f) =>
-      range(0, length).every((int index) => f(this[index]));
-
-  /// Performs classic [any] on the characters of the [String].
-  bool any(bool Function(String s) f) =>
-      range(0, length).any((int index) => f(this[index]));
-
-  /// Performs classic [where] on the characters of the [String].
-  Iterable<String> where(bool Function(String s) f) => range(0, length)
-      .map((int index) => this[index])
-      .where((String character) => f(character));
+  String insert(String s, int index) => take(index) + s + skip(index);
 
   /// Shorthand for [binaryToInt].
   int b2i() => binaryToInt();
@@ -92,4 +70,12 @@ extension StringExtension on String {
       .splitWhitespace()
       .map((String integerString) => int.parse(integerString))
       .toList();
+
+  /// Returns an [Iterable] containing the characters in the [String] as
+  /// separate [String]s.
+  Iterable<String> toIterable() sync* {
+    for (int charIndex = 0; charIndex < length; charIndex++) {
+      yield this[charIndex];
+    }
+  }
 }
